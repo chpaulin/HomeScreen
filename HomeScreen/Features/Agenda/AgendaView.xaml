@@ -1,0 +1,41 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HomeScreen.Features.Agenda"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
+    xmlns:c="using:HomeScreen.Common.Converters"
+    x:Class="HomeScreen.Features.Agenda.AgendaView"    
+    mc:Ignorable="d"
+    d:DesignHeight="740"
+    d:DesignWidth="1050" RequestedTheme="Dark" >
+    <UserControl.Resources>
+        <c:IntegerToVisibleConverter x:Key="IntegerToVisibleConverter" />
+    </UserControl.Resources>
+    <Grid Margin="20">
+        <ItemsControl ItemsSource="{Binding Agenda}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="{Binding Day}" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" FontSize="48" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Normal"/>
+                        <ItemsControl Grid.Row="1" Margin="0,0,0,20" ItemsSource="{Binding Events}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <local:EventView Visibility="{Binding EventType, ConverterParameter=2, Converter={StaticResource IntegerToVisibleConverter}}"/>
+                                        <local:AllDayEventView Visibility="{Binding EventType, ConverterParameter=1, Converter={StaticResource IntegerToVisibleConverter}}"/>
+                                        <local:NoEventsView Visibility="{Binding EventType, ConverterParameter=0, Converter={StaticResource IntegerToVisibleConverter}}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

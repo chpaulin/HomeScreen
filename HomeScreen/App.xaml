@@ -1,0 +1,14 @@
+﻿<Application
+    x:Class="HomeScreen.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HomeScreen"
+    xmlns:ioc="using:GalaSoft.MvvmLight.Ioc"
+    xmlns:c="using:HomeScreen.Common.Converters"
+    RequestedTheme="Light">
+    <Application.Resources>
+        <c:DebugConverter x:Key="DebugConverter" />
+        <c:BoolToVisibiltyConverter x:Key="BoolToVisibiltyConverter"/>
+        <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="#FF881798" />
+    </Application.Resources>
+</Application>

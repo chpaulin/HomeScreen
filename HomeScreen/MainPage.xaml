@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="HomeScreen.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HomeScreen"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:statusbar="using:HomeScreen.Features.StatusBar"
+    xmlns:weather="using:HomeScreen.Features.Weather"
+    xmlns:departures="using:HomeScreen.Features.Departures"
+    xmlns:agenda="using:HomeScreen.Features.Agenda"
+    mc:Ignorable="d" d:DesignHeight="1680" d:DesignWidth="1050"
+    RequestedTheme="Dark" Background="Black">
+    <Page.Resources>
+        <local:MainViewModel x:Key="MainViewModel" />
+    </Page.Resources>
+
+    <Viewbox>
+        <Grid Background="Black" DataContext="{StaticResource MainViewModel}" Width="1050" Height="1680">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="640"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*"/>
+                <ColumnDefinition Width=".5*"/>
+            </Grid.ColumnDefinitions>
+            <statusbar:StatusBarView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Status}"/>
+            <agenda:AgendaView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Agenda}"/>
+            <weather:WeatherView Grid.Row="2" Grid.Column="1" DataContext="{Binding Weather}" />
+            <departures:DeparturesView Grid.Row="2" Grid.Column="0" DataContext="{Binding Departures}" />
+        </Grid>
+    </Viewbox>
+</Page>
