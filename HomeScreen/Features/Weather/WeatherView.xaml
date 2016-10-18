@@ -1,0 +1,38 @@
+﻿<UserControl
+    x:Class="HomeScreen.Features.Weather.WeatherView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HomeScreen.Features.Weather"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:c="using:HomeScreen.Common.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="740"
+    d:DesignWidth="525"
+    RequestedTheme="Dark">
+    <UserControl.Resources>
+        <c:TemperatureConverter x:Key="TemperatureConverter" />
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Padding="20,0,0,0" Text="{Binding Temperature, Converter={StaticResource TemperatureConverter}}" FontSize="72" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="0,3,20,0"/>
+            <TextBlock Grid.Column="1" Text="{Binding Icon}" FontFamily="ms-appx:///Assets\artill_clean_icons.otf#artill clean weather icons" FontSize="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="0,0,0,-15" />
+        </Grid>
+        <ItemsControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Forecasts}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:ForecastView/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>
