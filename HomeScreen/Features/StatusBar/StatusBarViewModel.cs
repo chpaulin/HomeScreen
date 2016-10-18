@@ -21,10 +21,10 @@ namespace HomeScreen.Features.StatusBar
                 Interval = TimeSpan.FromSeconds(5)
             };
 
-            timer.Tick += (_, __) =>
-            {
-                SetCurrentTime();
-            };
+            //timer.Tick += (_, __) =>
+            //{
+            //    SetCurrentTime();
+            //};
 
             timer.Start();
         }
@@ -39,11 +39,8 @@ namespace HomeScreen.Features.StatusBar
                 RaisePropertyChanged(nameof(Hour));
             }
 
-            if (CurrentDate.Minute != Minute)
-            {
-                Minute = CurrentDate.Minute;
-                RaisePropertyChanged(nameof(Minute));
-            }
+            Minute = CurrentDate.Minute;
+            RaisePropertyChanged(nameof(Minute));
         }
 
         public int Hour { get; set; }
@@ -52,7 +49,7 @@ namespace HomeScreen.Features.StatusBar
 
         public DateTime CurrentDate
         {
-            get { return _currentDate;  }
+            get { return _currentDate; }
             set
             {
                 _currentDate = value;
