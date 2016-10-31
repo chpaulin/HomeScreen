@@ -11,6 +11,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -40,14 +41,10 @@ namespace HomeScreen.Features.Weather
         {
             await UpdateWeatherData();
 
-            var timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMinutes(10)
-            };
-
-            timer.Tick += async (_, __) => await UpdateWeatherData();
-
-            timer.Start();
+            Observable
+                .Interval(TimeSpan.FromMinutes(10))
+                .ObserveOnDispatcher()
+                .Subscribe(async (_) => await UpdateWeatherData());
         }
 
         private async Task UpdateWeatherData()
