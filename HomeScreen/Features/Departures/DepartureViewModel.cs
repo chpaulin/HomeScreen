@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
+using System.Reactive.Linq;
 using Windows.UI.Xaml;
 
 namespace HomeScreen.Features.Departures
@@ -8,11 +9,10 @@ namespace HomeScreen.Features.Departures
     {
         public DepartureViewModel()
         {
-            var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-
-            timer.Tick += (_, __) => RaisePropertyChanged(nameof(Departs));
-
-            timer.Start();
+            Observable
+                .Interval(TimeSpan.FromSeconds(1))
+                .ObserveOnDispatcher()
+                .Subscribe((_) => RaisePropertyChanged(nameof(Departs)));            
         }
 
         public DateTime Departs { get; internal set; }
