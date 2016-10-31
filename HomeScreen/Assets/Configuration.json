@@ -1,0 +1,24 @@
+﻿{
+  "settings": [
+    {
+      "key": "weatherDataUrl",
+      "value": "http://api.openweathermap.org/data/2.5/weather?id=2700791&units=metric&APPID=e2e4a5b8ef09487d6e826c3b7d013f47"
+    },
+    {
+      "key": "forcastDataUrl",
+      "value": "http://api.openweathermap.org/data/2.5/forecast?id=2700791&units=metric&APPID=e2e4a5b8ef09487d6e826c3b7d013f47"
+    },
+    {
+      "key": "departuresDataUrl",
+      "value": "https://api.resrobot.se/v2/departureBoard.json?key=014f6c3a-f977-4af8-a050-4be00b28cdd8&id=740064079&maxJourneys=10&passlist=0"
+    },
+    {
+      "key": "agendaDataUrl",
+      "value": "http://sharing.calendar.live.com/calendar/private/9c7b84c0-ed74-4b53-8967-5eb87910c279/b90cb52f-22af-4037-beaa-6139ab71ef40/cid-1c8b20a00e1f65da/calendar.ics"
+    },   
+    {
+      "key": "dateSignificanceUrl",
+      "value": "http://api.dryg.net/dagar/v2.1/{0}"
+    }    
+  ]
+}
