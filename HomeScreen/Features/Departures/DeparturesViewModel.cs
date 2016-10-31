@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -33,14 +34,10 @@ namespace HomeScreen.Features.Departures
         {
             await UpdateDepartureData();
 
-            var timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(30)
-            };
-
-            timer.Tick += async (_, __) => await UpdateDepartureData();
-
-            timer.Start();
+            Observable
+                .Interval(TimeSpan.FromSeconds(30))
+                .ObserveOnDispatcher()
+                .Subscribe(async (_) => await UpdateDepartureData());
         }
 
         private async Task UpdateDepartureData()
