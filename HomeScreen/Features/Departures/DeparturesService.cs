@@ -33,7 +33,9 @@ namespace HomeScreen.Features.Departures
                     using (var stream = response.GetResponseStream())
                     using (var reader = new StreamReader(stream))
                     {
-                        var data = JsonConvert.DeserializeObject<DepartureData>(await reader.ReadToEndAsync());
+                        var json = await reader.ReadToEndAsync();
+
+                        var data = JsonConvert.DeserializeObject<DepartureData>(json);
 
                         return data;
                     }

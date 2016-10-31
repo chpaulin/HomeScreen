@@ -37,5 +37,7 @@ namespace HomeScreen.Features.Departures
         public string direction { get; set; }
         public string transportNumber { get; set; }
         public string transportCategory { get; set; }
+        public string rtTime { get; set; }
+        public string rtDate { get; set; }
     }
 }

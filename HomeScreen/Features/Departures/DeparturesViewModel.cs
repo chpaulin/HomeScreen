@@ -56,7 +56,7 @@ namespace HomeScreen.Features.Departures
 
             foreach (var departure in departureData.Departure.Where(d => DateTime.Parse(d.time) > DateTime.Now))
             {
-                var stopTime = DateTime.Parse(departure.time);
+                var stopTime = DateTime.Parse(departure.rtTime);
 
                 var departureVM = new DepartureViewModel
                 {
