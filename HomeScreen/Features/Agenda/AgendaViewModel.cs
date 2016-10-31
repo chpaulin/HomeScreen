@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -33,14 +34,10 @@ namespace HomeScreen.Features.Agenda
         {
             await UpdateAgendaData();
 
-            var timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMinutes(5)
-            };
-
-            timer.Tick += async (_, __) => await UpdateAgendaData();
-
-            timer.Start();
+            Observable
+                .Interval(TimeSpan.FromMinutes(5))
+                .ObserveOnDispatcher()
+                .Subscribe(async (_) => await UpdateAgendaData());            
         }
 
         private async Task UpdateAgendaData()

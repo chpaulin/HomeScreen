@@ -32,32 +32,36 @@ namespace HomeScreen.Features.Weather
             _weatherService = new WeatherService(configuration);
 
             if (!configuration.Loaded)
-                Messenger.Default.Register<ConfigurationLoadedEvent>(this, async (_) => await SetUpWeatherChecker());
+                Messenger.Default.Register<ConfigurationLoadedEvent>(this, (_) => SetUp());
             else
-                Task.Run(SetUpWeatherChecker);
+            {
+                SetUp();
+            }
         }
 
-        private async Task SetUpWeatherChecker()
+        private void SetUp()
         {
-            await UpdateWeatherData();
-
             Observable
                 .Interval(TimeSpan.FromMinutes(10))
                 .ObserveOnDispatcher()
-                .Subscribe(async (_) => await UpdateWeatherData());
+                .Subscribe(async (_) =>
+                {
+                    var currentWeatherData = await _weatherService.RetrieveCurrentWeatherData();
+                    UpdateCurrentWeatherData(currentWeatherData);
+
+                    var forcastWeatherData = await _weatherService.RetrieveForcastWeatherData();
+                    UpdateForecastWeatherData(forcastWeatherData);
+                });
+
+            Task.Run(_weatherService.RetrieveCurrentWeatherData)
+                    .ContinueWith(async currentWeatherData => UpdateCurrentWeatherData(await currentWeatherData), TaskScheduler.FromCurrentSynchronizationContext());
+
+            Task.Run(_weatherService.RetrieveForcastWeatherData)
+                .ContinueWith(async forcastWeatherData => UpdateForecastWeatherData(await forcastWeatherData), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        private async Task UpdateWeatherData()
+        private void UpdateForecastWeatherData(WeatherForecast forecastData)
         {
-            await UpdateCurrentWeatherData();
-
-            await UpdateForecastWeatherData();
-        }
-
-        private async Task UpdateForecastWeatherData()
-        {
-            var forecastData = await _weatherService.RetrieveForcastWeatherData();
-
             var forecasts = forecastData.list.Select(f => new
             {
                 Temperature = f.main.temp,
@@ -67,7 +71,7 @@ namespace HomeScreen.Features.Weather
                 Date = UnixTimeStampUtility.UnixTimeStampToDateTime(f.dt)
             });
 
-            forecasts = forecasts.OrderBy(f => f.Date).Where(f => f.Date > DateTime.Now && f.Date.Date >= DateTime.Today && f.Date.Date <= DateTime.Today.AddDays(1));        
+            forecasts = forecasts.OrderBy(f => f.Date).Where(f => f.Date > DateTime.Now && f.Date.Date >= DateTime.Today && f.Date.Date <= DateTime.Today.AddDays(1));
 
             Forecasts.Clear();
 
@@ -84,7 +88,7 @@ namespace HomeScreen.Features.Weather
 
                 Forecasts.Add(forecastVM);
             }
-        }       
+        }
 
         private bool CheckIfDateIsAroundNoon(int dt)
         {
@@ -96,10 +100,8 @@ namespace HomeScreen.Features.Weather
         public ObservableCollection<ForecastViewModel> Forecasts { get; } = new ObservableCollection<ForecastViewModel>();
 
 
-        private async Task UpdateCurrentWeatherData()
+        private void UpdateCurrentWeatherData(CurrentWeatherConditions currentWeatherData)
         {
-            var currentWeatherData = await _weatherService.RetrieveCurrentWeatherData();
-
             if (currentWeatherData.main.temp == 0d)
                 return;
 
