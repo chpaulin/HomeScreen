@@ -1,0 +1,24 @@
+﻿{
+  "settings": [
+    {
+      "key": "weatherDataUrl",
+      "value": "http://api.openweathermap.org/data/2.5/weather?id=2700791&units=metric&APPID={APPID}"
+    },
+    {
+      "key": "forcastDataUrl",
+      "value": "http://api.openweathermap.org/data/2.5/forecast?id=2700791&units=metric&APPID={APPID}"
+    },
+    {
+      "key": "departuresDataUrl",
+      "value": "https://api.resrobot.se/v2/departureBoard.json?key={key}&id=740064079&maxJourneys=10&passlist=0"
+    },
+    {
+      "key": "agendaDataUrl",
+      "value": "{CalendarAddress}"
+    },   
+    {
+      "key": "dateSignificanceUrl",
+      "value": "http://api.dryg.net/dagar/v2.1/{0}"
+    }    
+  ]
+}
