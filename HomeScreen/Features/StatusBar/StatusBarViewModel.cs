@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using HomeScreen.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,22 @@ using Windows.UI.Xaml;
 
 namespace HomeScreen.Features.StatusBar
 {
-    public class StatusBarViewModel : ViewModelBase
+    public class StatusBarViewModel : AsyncInitViewModelBase
     {
         private DateTime _currentDate;
         private int _hour;
         private int _minute;
 
-        public StatusBarViewModel()
+        private void SetCurrentTime()
+        {
+            CurrentDate = DateTime.Now;
+
+            Hour = CurrentDate.Hour;
+
+            Minute = CurrentDate.Minute;
+        }
+
+        public override async Task Init()
         {
             SetCurrentTime();
 
@@ -42,15 +52,6 @@ namespace HomeScreen.Features.StatusBar
 
             dateChanges
                 .Subscribe((date) => CurrentDate = date);
-        }
-
-        private void SetCurrentTime()
-        {
-            CurrentDate = DateTime.Now;
-
-            Hour = CurrentDate.Hour;
-
-            Minute = CurrentDate.Minute;
         }
 
         public int Hour

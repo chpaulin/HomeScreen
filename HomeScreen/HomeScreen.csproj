@@ -115,12 +115,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\AsyncInitViewModelBase.cs" />
     <Compile Include="Common\Converters\BoolToVisibiltyConverter.cs" />
     <Compile Include="Common\Converters\DateTimeToDateTimeStringConverter.cs" />
     <Compile Include="Common\Converters\DateTimeToTimeStringConverter.cs" />
     <Compile Include="Common\Converters\IntegerToVisibleConverter.cs" />
     <Compile Include="Common\Converters\TodaysDateConverter.cs" />
     <Compile Include="Common\DateToStringUtility.cs" />
+    <Compile Include="Common\IAsyncInit.cs" />
     <Compile Include="Common\PollyUtility.cs" />
     <Compile Include="Features\Agenda\AgendaData.cs" />
     <Compile Include="Features\Agenda\AgendaService.cs" />

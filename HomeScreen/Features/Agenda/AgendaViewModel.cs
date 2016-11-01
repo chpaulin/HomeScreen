@@ -14,21 +14,17 @@ using Windows.UI.Xaml;
 
 namespace HomeScreen.Features.Agenda
 {
-    public class AgendaViewModel : ViewModelBase
+    public class AgendaViewModel : AsyncInitViewModelBase
     {
-        private readonly AgendaService _agendaService;
+        private AgendaService _agendaService;
+        private Configuration _configuration;
+
+        public List<DayViewModel> Agenda { get; private set; } = new List<DayViewModel>();
 
         public AgendaViewModel(Configuration configuration)
         {
-            _agendaService = new AgendaService(configuration);
-
-            if (!configuration.Loaded)
-                Messenger.Default.Register<ConfigurationLoadedEvent>(this, async (_) => await SetUpAgendaChecker());
-            else
-                Task.Run(SetUpAgendaChecker);
+            _configuration = configuration;
         }
-
-        public List<DayViewModel> Agenda { get; private set; } = new List<DayViewModel>();
 
         private async Task SetUpAgendaChecker()
         {
@@ -109,6 +105,16 @@ namespace HomeScreen.Features.Agenda
                 EventType = @event.IsAllDay ? EventViewModel.ALL_DAY_EVENT : EventViewModel.NORMAL_EVENT,
                 Subject = @event.Subject
             };
+        }
+
+        public override async Task Init()
+        {
+            _agendaService = new AgendaService(_configuration);
+
+            if (!_configuration.Loaded)
+                Messenger.Default.Register<ConfigurationLoadedEvent>(this, async (_) => await SetUpAgendaChecker());
+            else
+                await SetUpAgendaChecker();
         }
     }
 }

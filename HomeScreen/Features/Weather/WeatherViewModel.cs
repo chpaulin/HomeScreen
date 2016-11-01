@@ -19,27 +19,21 @@ using Windows.UI.Xaml;
 
 namespace HomeScreen.Features.Weather
 {
-    public class WeatherViewModel : ViewModelBase
+    public class WeatherViewModel : AsyncInitViewModelBase
     {
         private const int FORCAST_LENGHT = 5;
 
         private double _temperature;
         private string _icon;
-        private readonly WeatherService _weatherService;
+        private WeatherService _weatherService;
+        private Configuration _configuration;
 
         public WeatherViewModel(Configuration configuration)
         {
-            _weatherService = new WeatherService(configuration);
-
-            if (!configuration.Loaded)
-                Messenger.Default.Register<ConfigurationLoadedEvent>(this, (_) => SetUp());
-            else
-            {
-                SetUp();
-            }
+            _configuration = configuration;
         }
 
-        private void SetUp()
+        private async Task SetUp()
         {
             Observable
                 .Interval(TimeSpan.FromMinutes(10))
@@ -53,10 +47,10 @@ namespace HomeScreen.Features.Weather
                     UpdateForecastWeatherData(forcastWeatherData);
                 });
 
-            Task.Run(_weatherService.RetrieveCurrentWeatherData)
+            await _weatherService.RetrieveCurrentWeatherData()
                     .ContinueWith(async currentWeatherData => UpdateCurrentWeatherData(await currentWeatherData), TaskScheduler.FromCurrentSynchronizationContext());
 
-            Task.Run(_weatherService.RetrieveForcastWeatherData)
+            await _weatherService.RetrieveForcastWeatherData()
                 .ContinueWith(async forcastWeatherData => UpdateForecastWeatherData(await forcastWeatherData), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
@@ -131,6 +125,18 @@ namespace HomeScreen.Features.Weather
                 return "?";
 
             return icons[id.Value];
+        }
+
+        public override async Task Init()
+        {
+            _weatherService = new WeatherService(_configuration);
+
+            if (!_configuration.Loaded)
+                Messenger.Default.Register<ConfigurationLoadedEvent>(this, (_) => SetUp());
+            else
+            {
+                await SetUp();
+            }
         }
 
         public double Temperature

@@ -13,21 +13,17 @@ using Windows.UI.Xaml;
 
 namespace HomeScreen.Features.Departures
 {
-    public class DeparturesViewModel : ViewModelBase
+    public class DeparturesViewModel : AsyncInitViewModelBase
     {
         private const string RISSNE_STATION_NAME = "Rissne T-bana (Sundbyberg kn)";
         private const string SUNDBYBERG_STATION_NAME = "Sundbyberg station";
 
         private DeparturesService _departureService;
+        private Configuration _configuration;
 
         public DeparturesViewModel(Configuration configuration)
         {
-            _departureService = new DeparturesService(configuration);
-
-            if (!configuration.Loaded)
-                Messenger.Default.Register<ConfigurationLoadedEvent>(this, async (_) => await SetUpDepartureChecker());
-            else
-                Task.Run(SetUpDepartureChecker);
+            _configuration = configuration;
         }
 
         private async Task SetUpDepartureChecker()
@@ -82,7 +78,15 @@ namespace HomeScreen.Features.Departures
             }
         }
 
-        public string Test => "Hej";
+        public override async Task Init()
+        {
+            _departureService = new DeparturesService(_configuration);
+
+            if (!_configuration.Loaded)
+                Messenger.Default.Register<ConfigurationLoadedEvent>(this, async (_) => await SetUpDepartureChecker());
+            else
+                await SetUpDepartureChecker();
+        }
 
         public ObservableCollection<DepartureViewModel> DeparturesSundbyberg { get; } = new ObservableCollection<DepartureViewModel>();
         public ObservableCollection<DepartureViewModel> DeparturesRissne { get; } = new ObservableCollection<DepartureViewModel>();
