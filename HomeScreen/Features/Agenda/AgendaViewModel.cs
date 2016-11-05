@@ -43,7 +43,7 @@ namespace HomeScreen.Features.Agenda
 
         private async Task UpdateHolidayInfo(DayViewModel day)
         {
-            var info = await _agendaService.RetrieveDateSigificanceData(DateTime.Today);
+            var info = await _agendaService.RetrieveDateSigificanceData(day.Date);
 
             var dayInfo = info.dagar.FirstOrDefault();
 
@@ -69,7 +69,7 @@ namespace HomeScreen.Features.Agenda
 
             while (entryCount < 7)
             {
-                var day = new DayViewModel { Day = DateToStringUtility.GetDayString(date) };
+                var day = new DayViewModel { Day = DateToStringUtility.GetDayString(date), Date = date };
 
                 foreach (var @event in events.Where(e => e.Start.Date == date && e.Start.Add(e.End - e.Start) >= DateTime.Now || (e.Start.Date < date && date < e.End.Date)).OrderBy(e => e.Start))
                 {

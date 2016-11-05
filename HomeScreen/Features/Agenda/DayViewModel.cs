@@ -10,6 +10,8 @@ namespace HomeScreen.Features.Agenda
 {
     public class DayViewModel : ViewModelBase
     {
+        public DateTime Date { get; set; }
+
         public string Day { get; set; }
 
         public ObservableCollection<EventViewModel> Events { get; } = new ObservableCollection<EventViewModel>();
