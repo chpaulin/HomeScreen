@@ -11,6 +11,16 @@ namespace HomeScreen
 {
     public class MainViewModel : AsyncInitViewModelBase
     {
+        public MainViewModel()
+        {
+            var configuration = new Configuration();
+
+            Status = new StatusBarViewModel();
+            Agenda = new AgendaViewModel(configuration);
+            Weather = new WeatherViewModel(configuration);
+            Departures = new DeparturesViewModel(configuration);
+        }
+
         public WeatherViewModel Weather { get; private set; }
 
         public StatusBarViewModel Status { get; private set; }
@@ -20,15 +30,8 @@ namespace HomeScreen
         public AgendaViewModel Agenda { get; private set; }
 
         public override async Task Init()
-        {
-            var configuration = new Configuration();
-
-            Status = new StatusBarViewModel();
-            Agenda = new AgendaViewModel(configuration);
-            Weather = new WeatherViewModel(configuration);
-            Departures = new DeparturesViewModel(configuration);
-
-            await Task.WhenAll(
+        {            
+            await Task.WhenAny(
                 Status.Init(),
                 Agenda.Init(),
                 Weather.Init(),

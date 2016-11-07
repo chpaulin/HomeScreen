@@ -24,17 +24,18 @@ namespace HomeScreen
     /// </summary>
     public sealed partial class MainPage : Page, IAsyncInit
     {
+        public AsyncInitViewModelBase ViewModel { get; set; }
+
         public MainPage()
         {
             this.InitializeComponent();
+
+            DataContext = ViewModel = new MainViewModel();
         }
 
         public async Task Init()
-        {
-            var viewModel = new MainViewModel();
-            await viewModel.Init();
-
-            DataContext = viewModel;
+        {            
+            await ViewModel.Init();            
         }
     }
 }

@@ -30,8 +30,11 @@ namespace HomeScreen.Features.StatusBar
         {
             SetCurrentTime();
 
+            //Sync with minute change
+            await Task.Delay(TimeSpan.FromSeconds(60 - DateTime.Now.Second));                  
+
             var minutesChanges = Observable
-                .Interval(TimeSpan.FromSeconds(1))
+                .Interval(TimeSpan.FromMinutes(1))
                 .Select((_) => DateTime.Now.Minute)
                 .DistinctUntilChanged()
                 .ObserveOnDispatcher();
