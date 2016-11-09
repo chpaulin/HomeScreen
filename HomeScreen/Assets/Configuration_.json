@@ -2,7 +2,7 @@
   "settings": [
     {
       "key": "weatherDataUrl",
-      "value": "http://api.openweathermap.org/data/2.5/weather?id=2700791&units=metric&APPID={APPID}"
+      "value": "http://api.openweathermap.org/data/2.5/weather?id=2692630&units=metric&APPID={APPID}"
     },
     {
       "key": "forcastDataUrl",
