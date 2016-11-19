@@ -1,4 +1,5 @@
 ﻿using Polly;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,15 @@ namespace HomeScreen.Common
         public static async Task<PolicyResult<T>> ExecuteWebRequest<T>(Func<Task<T>> action)
         {
             return await Policy
-               .Handle<WebException>()
+               .Handle<WebException>(OnException)
                .WaitAndRetryForeverAsync((retryCount) => GetTimeout(retryCount))
                .ExecuteAndCaptureAsync<T>(action);
+        }
+
+        private static bool OnException(WebException arg)
+        {
+            Log.Error("WebException occured @{E}", arg);
+            return true;
         }
 
         private static TimeSpan GetTimeout(int retryCount)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace HomeScreen
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += OnSuspending;            
+            this.Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace HomeScreen
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);                    
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
@@ -83,7 +84,22 @@ namespace HomeScreen
                 //Initialize app
                 var mainPage = rootFrame.Content as MainPage;
                 await mainPage.Init();
+
+                //Set up logging
+                Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.Sink(await LogSink.CreateSink())
+               .CreateLogger();
+
+                Current.UnhandledException += Application_UnhandledExceptions;
+
+                Log.Information($"{DateTime.Now.ToString("t")} - Homescreen starting up");
             }
+        }
+
+        private void Application_UnhandledExceptions(object sender, UnhandledExceptionEventArgs e)
+        {
+            Log.Error("Unhandled exception occured @{E}", e);
         }
 
         private void Current_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -113,6 +129,6 @@ namespace HomeScreen
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
-        }        
+        }
     }
 }
