@@ -20,11 +20,15 @@ namespace HomeScreen
 
         public async void Emit(LogEvent logEvent)
         {
-            using (var stream = await _logFile.OpenStreamForWriteAsync())
-            using (var writer = new StreamWriter(stream))
+            try
             {
-                await writer.WriteLineAsync(logEvent.RenderMessage());
+                using (var stream = await _logFile.OpenStreamForWriteAsync())
+                using (var writer = new StreamWriter(stream))
+                {
+                    await writer.WriteLineAsync(logEvent.RenderMessage());
+                }
             }
+            catch { }
         }
 
         public static async Task<LogSink> CreateSink()
