@@ -5,7 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:c="using:HomeScreen.Common.Converters"
     xmlns:local="using:HomeScreen.Features.StatusBar"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core" xmlns:Media="using:Microsoft.Xaml.Interactions.Media"
     x:Class="HomeScreen.Features.StatusBar.StatusBarView"
     mc:Ignorable="d"
     Height="100"
@@ -14,20 +13,9 @@
     <UserControl.Resources>
         <c:TodaysDateConverter x:Key="TodaysDateConverter" />
         <c:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
-        <Storyboard x:Name="TickStoryBoard" RepeatBehavior="Forever">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="textBlock">
-                <DiscreteDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
-                <DiscreteDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
     </UserControl.Resources>
 
     <Grid Padding="20,0" Background="{StaticResource SystemControlHighlightAccentBrush}">
-        <Interactivity:Interaction.Behaviors>
-            <Core:EventTriggerBehavior>
-                <Media:ControlStoryboardAction Storyboard="{StaticResource TickStoryBoard}"/>
-            </Core:EventTriggerBehavior>
-        </Interactivity:Interaction.Behaviors>
         <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding CurrentDate, Converter={StaticResource TodaysDateConverter}, FallbackValue=DEN 25 JUNI 2016}" Foreground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" FontSize="48" FontWeight="Bold"/>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
             <TextBlock Text="{Binding Hour, Converter={StaticResource IntegerToStringConverter}, FallbackValue=13}" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="ms-appx:///Assets/digital-7 (mono).ttf#digital-7 Mono" FontSize="100" />

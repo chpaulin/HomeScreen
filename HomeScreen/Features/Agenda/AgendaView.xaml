@@ -8,11 +8,12 @@
     x:Class="HomeScreen.Features.Agenda.AgendaView"    
     mc:Ignorable="d"
     d:DesignHeight="740"
-    d:DesignWidth="1050" RequestedTheme="Dark" >
+    d:DesignWidth="1050" RequestedTheme="Dark">
     <UserControl.Resources>
         <c:IntegerToVisibleConverter x:Key="IntegerToVisibleConverter" />
+        <local:AgendaViewModel x:Key="AgendaViewModel" />
     </UserControl.Resources>
-    <Grid Margin="20">
+    <Grid Margin="20" DataContext="{StaticResource AgendaViewModel}">
         <ItemsControl ItemsSource="{Binding Agenda}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

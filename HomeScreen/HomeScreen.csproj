@@ -126,11 +126,13 @@
     <Compile Include="Common\IAsyncInit.cs" />
     <Compile Include="Common\PollyUtility.cs" />
     <Compile Include="Features\Agenda\AgendaData.cs" />
+    <Compile Include="Features\Agenda\AgendaModelFactory.cs" />
     <Compile Include="Features\Agenda\AgendaService.cs" />
     <Compile Include="Features\Agenda\AgendaView.xaml.cs">
       <DependentUpon>AgendaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\Agenda\AgendaViewModel.cs" />
+    <Compile Include="Features\Agenda\AgendaWorker.cs" />
     <Compile Include="Features\Agenda\DateSignificance.cs" />
     <Compile Include="Features\Agenda\DayViewModel.cs" />
     <Compile Include="Features\Agenda\EventData.cs" />
@@ -151,6 +153,8 @@
     <Compile Include="Common\Converters\IntegerToStringConverter.cs" />
     <Compile Include="Common\Converters\TemperatureConverter.cs" />
     <Compile Include="Common\UnixTimeStampUtility.cs" />
+    <Compile Include="Features\Agenda\Model\Day.cs" />
+    <Compile Include="Features\Agenda\Model\Event.cs" />
     <Compile Include="Features\Agenda\TokenRefreshResponse.cs" />
     <Compile Include="Features\Departures\DepartureData.cs" />
     <Compile Include="Features\Departures\DeparturesService.cs" />
@@ -185,8 +189,10 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainViewModel.cs" />
+    <Compile Include="Messages\AgendaChangedEvent.cs" />
     <Compile Include="Messages\ConfigurationLoadedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Common\IAsyncWorker.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

@@ -13,16 +13,7 @@ namespace HomeScreen.Common
 {
     public class Configuration
     {
-        public Configuration()
-        {
-            Task.Run(LoadConfiguration)
-                .ContinueWith((_) =>
-                {
-                    Messenger.Default.Send(new ConfigurationLoadedEvent());
-                }, TaskScheduler.FromCurrentSynchronizationContext());
-        }
-
-        private async Task LoadConfiguration()
+        public async Task LoadConfiguration()
         {
             var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Configuration.json", UriKind.Absolute));
 

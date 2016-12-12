@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using GalaSoft.MvvmLight.Threading;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -86,12 +87,14 @@ namespace HomeScreen
                 await mainPage.Init();
 
                 //Set up logging
-                Log.Logger = new LoggerConfiguration()
-               .MinimumLevel.Debug()
-               .WriteTo.Sink(await LogSink.CreateSink())
-               .CreateLogger();
+               // Log.Logger = new LoggerConfiguration()
+               //.MinimumLevel.Debug()
+               //.WriteTo.Sink(await LogSink.CreateSink())
+               //.CreateLogger();
 
                 Current.UnhandledException += Application_UnhandledExceptions;
+
+                DispatcherHelper.Initialize();
 
                 Log.Information($"{DateTime.Now.ToString("t")} - Homescreen starting up");
             }

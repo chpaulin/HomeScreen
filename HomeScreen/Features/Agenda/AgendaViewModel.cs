@@ -11,110 +11,58 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using HomeScreen.Features.Agenda.Model;
+using GalaSoft.MvvmLight.Threading;
 
 namespace HomeScreen.Features.Agenda
 {
-    public class AgendaViewModel : AsyncInitViewModelBase
+    public class AgendaViewModel : ViewModelBase
     {
-        private AgendaService _agendaService;
-        private Configuration _configuration;
-
-        public List<DayViewModel> Agenda { get; private set; } = new List<DayViewModel>();
-
-        public AgendaViewModel(Configuration configuration)
+        public AgendaViewModel()
         {
-            _configuration = configuration;
+            Messenger.Default.Register<AgendaChangedEvent>(this, OnAgendaChanged);
         }
 
-        private async Task SetUpAgendaChecker()
+        private void OnAgendaChanged(AgendaChangedEvent agendaChangedEventArgs)
         {
-            await UpdateAgendaData();
-
-            Observable
-                .Interval(TimeSpan.FromMinutes(5))
-                .ObserveOnDispatcher()
-                .Subscribe(async (_) => await UpdateAgendaData());            
-        }
-
-        private async Task UpdateAgendaData()
-        {
-            await UpdateEvents();
-        }
-
-        private async Task UpdateHolidayInfo(DayViewModel day)
-        {
-            var info = await _agendaService.RetrieveDateSigificanceData(day.Date);
-
-            var dayInfo = info.dagar.FirstOrDefault();
-
-            if (dayInfo == null)
-                return;
-
-            if (!string.IsNullOrEmpty(dayInfo.helgdag))
-                day.Events.Insert(0, EventViewModel.CreateHoliday(dayInfo.helgdag));
-            else if (!string.IsNullOrEmpty(dayInfo.helgdagsafton))
-                day.Events.Insert(0, EventViewModel.CreateHoliday(dayInfo.helgdagsafton));
-            else if (!string.IsNullOrEmpty(dayInfo.flaggdag))
-                day.Events.Insert(0, EventViewModel.CreateHoliday(dayInfo.flaggdag));
-        }
-
-        private async Task UpdateEvents()
-        {
-            var events = await _agendaService.RetrieveCalendarData();
-
-            var agenda = new List<DayViewModel>();
-
-            var entryCount = 0;
-            var date = DateTime.Today;
-
-            while (entryCount < 7)
+            DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
-                var day = new DayViewModel { Day = DateToStringUtility.GetDayString(date), Date = date };
+                Agenda.Clear();
 
-                foreach (var @event in events.Where(e => e.Start.Date == date && e.Start.Add(e.End - e.Start) >= DateTime.Now || (e.Start.Date < date && date < e.End.Date)).OrderBy(e => e.Start))
+                foreach (var day in agendaChangedEventArgs.NewAgenda)
                 {
-                    var eventVM = CreateEventViewModel(@event);
+                    var dayVM = new DayViewModel
+                    {
+                        Date = day.Date,
+                        Day = DateToStringUtility.GetDayString(day.Date),
+                        Events = CreateEventViewModels(day.Events)
+                    };
 
-                    day.Events.Add(eventVM);
+                    Agenda.Add(dayVM);
                 }
+            });
+        }
 
-                await UpdateHolidayInfo(day);
+        private ObservableCollection<EventViewModel> CreateEventViewModels(IList<Event> events)
+        {
+            var eventVMs = new ObservableCollection<EventViewModel>();
 
-                if (day.Events.Count > 0)
+            foreach (var @event in events)
+            {
+                var eventVM = new EventViewModel
                 {
-                    agenda.Add(day);
-                    entryCount += day.Events.Count + 1;
-                }
+                    Start = @event.Start,
+                    End = @event.End,
+                    EventType = @event.EventType,
+                    Subject = @event.Subject
+                };
 
-                date += TimeSpan.FromDays(1);
+                eventVMs.Add(eventVM);
             }
 
-            if (entryCount > 8)
-                agenda.RemoveAt(agenda.Count - 1);
-
-            Agenda = agenda;
-            RaisePropertyChanged(nameof(Agenda));
+            return eventVMs;
         }
 
-        private EventViewModel CreateEventViewModel(EventData @event)
-        {
-            return new EventViewModel
-            {
-                Start = @event.Start,
-                End = @event.End,
-                EventType = @event.IsAllDay ? EventViewModel.ALL_DAY_EVENT : EventViewModel.NORMAL_EVENT,
-                Subject = @event.Subject
-            };
-        }
-
-        public override async Task Init()
-        {
-            _agendaService = new AgendaService(_configuration);
-
-            if (!_configuration.Loaded)
-                Messenger.Default.Register<ConfigurationLoadedEvent>(this, async (_) => await SetUpAgendaChecker());
-            else
-                await SetUpAgendaChecker();
-        }
+        public ObservableCollection<DayViewModel> Agenda { get; private set; } = new ObservableCollection<DayViewModel>();
     }
 }

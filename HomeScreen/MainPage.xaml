@@ -24,9 +24,9 @@
                 <ColumnDefinition Width=".5*"/>
             </Grid.ColumnDefinitions>
             <statusbar:StatusBarView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Status}"/>
-            <agenda:AgendaView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Agenda}"/>
+            <agenda:AgendaView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Agenda}"/>           
+            <!--<departures:DeparturesView Grid.Row="2" Grid.Column="0" DataContext="{Binding Departures}" />--> 
             <weather:WeatherView Grid.Row="2" Grid.Column="1" DataContext="{Binding Weather}" />
-            <departures:DeparturesView Grid.Row="2" Grid.Column="0" DataContext="{Binding Departures}" />
         </Grid>
     </Viewbox>
 </Page>

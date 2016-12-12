@@ -14,6 +14,6 @@ namespace HomeScreen.Features.Agenda
 
         public string Day { get; set; }
 
-        public ObservableCollection<EventViewModel> Events { get; } = new ObservableCollection<EventViewModel>();
+        public ObservableCollection<EventViewModel> Events { get; set; }
     }
 }
