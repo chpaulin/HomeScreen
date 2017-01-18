@@ -136,12 +136,19 @@ namespace HomeScreen.Features.Agenda
 
         private static DateTime GetDate(string dateString)
         {
+            var regEx = new Regex(@"\/\/Microsoft\/Utc" + "\"" + @":([\dT]*)");
+
+            var match = regEx.Match(dateString);
+
+            if (match.Success)
+                dateString = match.Groups[1].Value;
+
             if (dateString.Length == 16)
                 return DateTime.ParseExact(dateString, "yyyyMMddTHHmmssZ", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             else if (dateString.Length == 15)
                 return DateTime.ParseExact(dateString, "yyyyMMddTHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
             else if (dateString.Length == 8)
-                return DateTime.ParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture);
+                return DateTime.ParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture);            
             else
                 throw new FormatException($"Invalid Format for DateTime: {dateString}");
         }
