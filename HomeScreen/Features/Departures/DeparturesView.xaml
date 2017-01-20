@@ -24,7 +24,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" FontFamily="ms-appx:/Assets/GlyphyxOneNF.otf#Glyphyx One NF" Text="&amp;" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontSize="90" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+            <TextBlock Grid.Column="0" FontFamily="Ionicons" Text="" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontSize="90" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
         </Grid>
         <TextBlock Grid.Column="0" Grid.Row="1" Text="Sundbyberg" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" FontSize="48" VerticalAlignment="Center" HorizontalAlignment="Left"/>
         <ItemsControl Grid.Column="0" Grid.Row="2" ItemsSource="{Binding DeparturesSundbyberg, Converter={StaticResource DebugConverter}}" >

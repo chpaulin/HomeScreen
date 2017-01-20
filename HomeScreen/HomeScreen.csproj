@@ -156,6 +156,12 @@
     <Compile Include="Features\Agenda\Model\Day.cs" />
     <Compile Include="Features\Agenda\Model\Event.cs" />
     <Compile Include="Features\Agenda\TokenRefreshResponse.cs" />
+    <Compile Include="Features\CarInfo\Battery.xaml.cs">
+      <DependentUpon>Battery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Features\CarInfo\CarInfoView.xaml.cs">
+      <DependentUpon>CarInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Features\Departures\DepartureData.cs" />
     <Compile Include="Features\Departures\DeparturesService.cs" />
     <Compile Include="Features\Departures\DeparturesView.xaml.cs">
@@ -204,6 +210,7 @@
     <Content Include="Assets\Configuration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Icons\bus.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -231,6 +238,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Features\Agenda\Event\EventView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\CarInfo\Battery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\CarInfo\CarInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
