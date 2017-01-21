@@ -21,8 +21,8 @@
                 <RowDefinition Height="640"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".5*"/>
-                <ColumnDefinition Width=".5*"/>
+                <ColumnDefinition Width=".6*"/>
+                <ColumnDefinition Width=".4*"/>
             </Grid.ColumnDefinitions>
             <statusbar:StatusBarView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Status}"/>
             <agenda:AgendaView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Agenda}"/>           

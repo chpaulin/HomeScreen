@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:c="using:HomeScreen.Common.Converters"
     mc:Ignorable="d"
-    d:DesignHeight="200"
-    d:DesignWidth="525"    
+    d:DesignHeight="100"
+    d:DesignWidth="700"    
     RequestedTheme="Dark">
     <UserControl.Resources>
         <c:ChargeStateToColorConverter x:Key="ChargeStateToColorConverter" />
@@ -16,43 +16,53 @@
     <Grid Background="Black" Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,-50">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" FontFamily="ms-appx:/Assets/autofont.ttf#icomoon" Text="a" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontSize="150" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0" Grid.RowSpan="2" />
-            <Viewbox Grid.Column="1" Margin="20,0,0,0" VerticalAlignment="Center" Height="50">
-                <Grid Height="100" Width="350">
-                    <Path Data="M2.5,2.5 L320.85,2.5 L320.85,22.9883 L337.5,22.9883 L337.5,57.0117 L320.85,57.0117 L320.85,77.5 L2.5,77.5 z" Stretch="Fill" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="7" UseLayoutRounding="False" Fill="White" HorizontalAlignment="Left" Width="350"/>
-                    <Rectangle Fill="Black" StrokeThickness="7" Margin="10,10,27,10" HorizontalAlignment="Left" Width="320"/>
-                    <Rectangle Fill="{Binding StateOfCharge, Converter={StaticResource ChargeStateToColorConverter}, FallbackValue=Green}" StrokeThickness="7" Margin="15,15,32,15" RenderTransformOrigin="0,0.5" HorizontalAlignment="Left" Width="320">
-                        <Rectangle.RenderTransform>
-                            <CompositeTransform ScaleX="{Binding StateOfCharge, FallbackValue=0.62}"/>
-                        </Rectangle.RenderTransform>
-                    </Rectangle>
-                </Grid>
-            </Viewbox>
-        </Grid>
-        <StackPanel Grid.Column="0" Orientation="Horizontal" Grid.Row="1">
-            <TextBlock Text="{Binding StateOfChargePercentage, FallbackValue=62}" HorizontalAlignment="Center" FontSize="36" Height="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontWeight="Bold"/>
-            <TextBlock Text="%" HorizontalAlignment="Center" FontSize="36" Height="48" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="5,0,0,0"/>
+        <Path Grid.Column="0" Data="M120.117,92.2852 C123.828,92.2852 126.953,93.6036 129.492,96.2403 C132.031,98.877 133.301,102.051 133.301,105.762 C133.301,107.91 133.008,109.668 132.422,111.035 C131.25,113.379 129.541,115.332 127.295,116.895 C125.049,118.457 122.607,119.238 119.971,119.238 C117.334,119.238 114.893,118.457 112.646,116.895 C110.4,115.332 108.789,113.379 107.812,111.035 C107.031,109.473 106.641,107.715 106.641,105.762 C106.641,102.051 107.91,98.877 110.449,96.2403 C112.988,93.6036 116.211,92.2852 120.117,92.2852 z M25.7812,92.2852 C29.4922,92.2852 32.666,93.5547 35.3027,96.0938 C37.9395,98.6329 39.2578,101.758 39.2578,105.469 C39.2578,107.227 38.9648,108.984 38.3789,110.742 C37.207,113.281 35.498,115.283 33.252,116.748 C31.0059,118.213 28.5156,118.945 25.7812,118.945 C23.0469,118.945 20.6055,118.213 18.457,116.748 C16.3086,115.283 14.6484,113.281 13.4766,110.742 C12.6953,109.375 12.3047,107.617 12.3047,105.469 C12.3047,101.758 13.623,98.6329 16.2598,96.0938 C18.8965,93.5547 22.0703,92.2852 25.7812,92.2852 z M48.3398,57.5684 C45.0195,57.8614 41.7969,58.3008 38.6719,58.8868 L34.2773,59.7657 L23.7305,77.6368 L55.957,77.6368 L56.8359,58.0079 C54.4922,57.4219 51.6602,57.2754 48.3398,57.5684 z M64.1235,57.2754 C62.5854,57.2754 61.4258,57.3243 60.6445,57.4219 C60.2539,59.5704 60.0586,62.3047 60.0586,65.625 C60.0586,68.9454 60.0586,71.5821 60.0586,73.5352 L60.3516,77.0508 L100.781,77.0508 L83.7891,58.5938 C82.6172,58.3985 81.1523,58.2032 79.3945,58.0079 C77.6367,57.8125 74.4629,57.6172 69.873,57.4219 C67.5781,57.3243 65.6616,57.2754 64.1235,57.2754 z M58.5938,53.7598 C66.2109,53.8575 72.6562,54.3946 77.9297,55.3711 L85.5469,56.836 L104.59,76.7579 L119.531,78.5157 C129.102,79.8829 136.182,81.4942 140.771,83.3497 C145.361,85.2051 148.242,88.1836 149.414,92.2852 C150.195,94.2383 150.293,97.461 149.707,101.953 C149.121,106.445 149.023,109.473 149.414,111.035 L137.695,111.035 L137.695,105.762 C137.695,100.879 135.986,96.7286 132.568,93.3106 C129.15,89.8926 125,88.1836 120.117,88.1836 C115.234,88.1836 111.035,89.8926 107.52,93.3106 C104.004,96.7286 102.246,100.879 102.246,105.762 L102.246,110.742 L43.3594,110.742 L43.3594,105.469 C43.3594,100.586 41.6504,96.4844 38.2324,93.1641 C34.8145,89.8438 30.6641,88.1836 25.7812,88.1836 C20.8984,88.1836 16.748,89.8438 13.3301,93.1641 C9.91211,96.4844 8.20312,100.586 8.20312,105.469 L8.20312,109.863 C7.42187,108.691 6.20117,107.178 4.54102,105.322 C2.88086,103.467 1.70898,101.904 1.02539,100.635 C0.341797,99.3653 0.195312,97.9493 0.585938,96.3868 C0.78125,95.6055 0.732422,94.1895 0.439452,92.1387 C0.146484,90.0879 0,88.1348 0,86.2793 C0,84.4239 0.341797,82.6172 1.02539,80.8594 C1.70898,79.1016 3.36914,77.6856 6.00586,76.6114 C8.64258,75.5372 12.1094,75.0977 16.4062,75.293 C17.9688,74.1211 19.6777,72.0704 21.5332,69.1407 C23.3887,66.211 25.3418,63.5254 27.3926,61.084 C29.4434,58.6426 31.7383,57.129 34.2773,56.543 C42.8711,54.5899 50.9766,53.6622 58.5938,53.7598 z" Fill="White" HorizontalAlignment="Center" Height="52" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="120">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Grid.Column="1" Data="M16.992,8.16 C17.536,8.16 18.008,8.36 18.408,8.76 C18.808,9.16 19.008,9.632 19.008,10.176 C19.008,10.496 18.944,10.784 18.816,11.04 L14.544,21.312 L22.992,26.208 C23.568,26.528 23.896,27.024 23.976,27.696 C24.056,28.368 23.856,28.944 23.376,29.424 L8.352,43.632 C8,43.984 7.552,44.16 7.008,44.16 C6.304,44.16 5.752,43.856 5.352,43.248 C4.952,42.64 4.88,42.016 5.136,41.376 L9.456,31.008 L1.008,26.112 C0.464,25.792 0.144,25.296 0.048,24.624 C-0.048,23.952 0.144,23.376 0.624,22.896 L15.648,8.688 C16.064,8.336 16.512,8.16 16.992,8.16 z" Fill="#99FFFFFF" HorizontalAlignment="Center" Height="36" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="20" Margin="20,3,0,0">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Viewbox Grid.Column="2" Margin="10,5,0,0" Height="42" VerticalAlignment="Center">
+            <Grid Height="100" Width="350">
+                <Path Data="M2.5,2.5 L320.85,2.5 L320.85,22.9883 L337.5,22.9883 L337.5,57.0117 L320.85,57.0117 L320.85,77.5 L2.5,77.5 z" Stretch="Fill" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="7" UseLayoutRounding="False" Fill="White" HorizontalAlignment="Left" Width="350"/>
+                <Rectangle Fill="Black" StrokeThickness="7" Margin="10,10,27,10" HorizontalAlignment="Left" Width="320"/>
+                <Rectangle Fill="{Binding StateOfCharge, Converter={StaticResource ChargeStateToColorConverter}, FallbackValue=Green}" StrokeThickness="7" Margin="15,15,32,15" RenderTransformOrigin="0,0.5" HorizontalAlignment="Left" Width="320">
+                    <Rectangle.RenderTransform>
+                        <CompositeTransform ScaleX="{Binding StateOfCharge, FallbackValue=0.62}"/>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+            </Grid>
+        </Viewbox>
+        <StackPanel Orientation="Horizontal" d:LayoutOverrides="Height" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="2" Margin="20,0,0,0">
+            <TextBlock Text="{Binding StateOfChargePercentage, FallbackValue=62}" HorizontalAlignment="Center" FontSize="24" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontWeight="Bold" FocusVisualPrimaryBrush="{StaticResource SystemControlHighlightAccentBrush}"/>
+            <TextBlock Text="%" HorizontalAlignment="Center" FontSize="24" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="2,0,0,0"/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Orientation="Horizontal" Grid.Row="1" Margin="10,0">
-            <TextBlock Text="{Binding StateOfChargeKWh, FallbackValue=37}" HorizontalAlignment="Center" FontSize="36" Height="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontWeight="Bold"/>
-            <TextBlock Text="kWh" HorizontalAlignment="Center" FontSize="36" Height="48" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="5,0,0,0"/>
-        </StackPanel>
-        <StackPanel Grid.Column="2" Orientation="Horizontal" Grid.Row="1" Margin="10,0">
-            <TextBlock Text="{Binding StateOfChargeKm, FallbackValue=186}" HorizontalAlignment="Center" FontSize="36" Height="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontWeight="Bold"/>
-            <TextBlock Text="km" HorizontalAlignment="Center" FontSize="36" Height="48" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="5,0,0,0"/>
+        <StackPanel Grid.Column="4" Orientation="Horizontal" Margin="20,-3,10,0" VerticalAlignment="Center">
+            <TextBlock Text="{Binding StateOfChargeKm, FallbackValue=186}" HorizontalAlignment="Center" FontSize="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontWeight="Bold"/>
+            <TextBlock Text="km" HorizontalAlignment="Center" FontSize="48" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="5,0,0,0"/>
         </StackPanel>
     </Grid>
 </UserControl>
