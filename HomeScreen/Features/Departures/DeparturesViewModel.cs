@@ -41,9 +41,9 @@ namespace HomeScreen.Features.Departures
 
             Departures.Clear();
 
-            foreach (var departure in departureData.Departure.Where(d => DateTime.Parse(d.time) > DateTime.Now).Take(NO_DEPARTURES_TO_SHOW))
+            foreach (var departure in departureData.Departure.Where(d => GetDepartureTime(d) > DateTime.Now).Take(NO_DEPARTURES_TO_SHOW))
             {
-                var stopTime = DateTime.Parse(departure.rtTime ?? departure.time);
+                var stopTime = GetDepartureTime(departure);
 
                 var departureVM = new DepartureViewModel
                 {
@@ -54,7 +54,12 @@ namespace HomeScreen.Features.Departures
 
                 Departures.Add(departureVM);
             }
-        }        
+        }
+
+        private DateTime GetDepartureTime(Departure departureData)
+        {
+            return DateTime.Parse(departureData.date).Add(DateTime.Parse(departureData.rtTime ?? departureData.time).TimeOfDay);
+        }
 
         public override async Task Init()
         {
