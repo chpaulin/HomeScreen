@@ -16,16 +16,16 @@
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
+            <RowDefinition Height="120" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-10,0">
+        <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-50,-10,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Padding="20,0,0,0" Text="{Binding Temperature, Converter={StaticResource TemperatureConverter}}" FontSize="72" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="0,3,20,0"/>
-            <TextBlock Grid.Column="1" Text="{Binding Icon}" FontFamily="ms-appx:///Assets\artill_clean_icons.otf#artill clean weather icons" FontSize="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="0,0,0,-15" />
+            <TextBlock Grid.Column="0" Padding="20,0,0,0" Text="{Binding Temperature, Converter={StaticResource TemperatureConverter}, FallbackValue=26°}" FontSize="72" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="0,3,20,0"/>
+            <TextBlock Grid.Column="1" Text="{Binding Icon, FallbackValue=a}" FontFamily="ms-appx:///Assets\artill_clean_icons.otf#artill clean weather icons" FontSize="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="0,0,0,-15" />
         </Grid>
         <ItemsControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Forecasts}">
             <ItemsControl.ItemTemplate>
