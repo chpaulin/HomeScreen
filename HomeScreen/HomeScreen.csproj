@@ -110,6 +110,7 @@
     <Content Include="Assets\Configuration_.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\autofont.ttf" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
