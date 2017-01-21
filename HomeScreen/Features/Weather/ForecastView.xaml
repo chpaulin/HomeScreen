@@ -18,7 +18,7 @@
     <Grid HorizontalAlignment="Right" Margin="0,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="80"/>
             <ColumnDefinition Width="80"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>

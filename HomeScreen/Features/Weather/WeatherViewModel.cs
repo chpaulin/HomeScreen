@@ -21,7 +21,7 @@ namespace HomeScreen.Features.Weather
 {
     public class WeatherViewModel : AsyncInitViewModelBase
     {
-        private const int FORCAST_LENGHT = 5;
+        private const int FORCAST_LENGHT = 7;
 
         private double _temperature;
         private string _icon;
