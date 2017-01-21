@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="Common\AsyncInitViewModelBase.cs" />
     <Compile Include="Common\Converters\BoolToVisibiltyConverter.cs" />
+    <Compile Include="Common\Converters\ChargeStateToColorConverter.cs" />
     <Compile Include="Common\Converters\DateTimeToDateTimeStringConverter.cs" />
     <Compile Include="Common\Converters\DateTimeToTimeStringConverter.cs" />
     <Compile Include="Common\Converters\IntegerToVisibleConverter.cs" />
@@ -156,12 +157,10 @@
     <Compile Include="Features\Agenda\Model\Day.cs" />
     <Compile Include="Features\Agenda\Model\Event.cs" />
     <Compile Include="Features\Agenda\TokenRefreshResponse.cs" />
-    <Compile Include="Features\CarInfo\Battery.xaml.cs">
-      <DependentUpon>Battery.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Features\CarInfo\CarInfoView.xaml.cs">
       <DependentUpon>CarInfoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Features\CarInfo\CarInfoViewModel.cs" />
     <Compile Include="Features\Departures\DepartureData.cs" />
     <Compile Include="Features\Departures\DeparturesService.cs" />
     <Compile Include="Features\Departures\DeparturesView.xaml.cs">
@@ -238,10 +237,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Features\Agenda\Event\EventView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Features\CarInfo\Battery.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

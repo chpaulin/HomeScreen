@@ -6,6 +6,7 @@ using HomeScreen.Features.Agenda;
 using HomeScreen.Features.Departures;
 using HomeScreen.Features.StatusBar;
 using HomeScreen.Features.Weather;
+using HomeScreen.Features.CarInfo;
 
 namespace HomeScreen
 {
@@ -20,6 +21,7 @@ namespace HomeScreen
             Status = new StatusBarViewModel();
             Weather = new WeatherViewModel(_configuration);
             //Departures = new DeparturesViewModel(_configuration);
+            CarInfo = new CarInfoViewModel();
 
             Agenda = new AgendaWorker(_configuration);
         }        
@@ -31,6 +33,8 @@ namespace HomeScreen
         public DeparturesViewModel Departures { get; private set; }
 
         public AgendaWorker Agenda { get; private set; }
+
+        public CarInfoViewModel CarInfo { get; private set; }
 
         public override async Task Init()
         {
