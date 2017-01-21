@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using HomeScreen.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HomeScreen.Features.CarInfo
 {
-    public class CarInfoViewModel : ViewModelBase
+    public class CarInfoViewModel : AsyncInitViewModelBase
     {
         private double _stateOfCharge = 0.62;
 
@@ -34,6 +35,12 @@ namespace HomeScreen.Features.CarInfo
         public int StateOfChargeKm
         {
             get { return (int)Math.Floor(_stateOfCharge * 300); }
+        }
+
+        public async override Task Init()
+        {
+            //TODO
+            await Task.CompletedTask;
         }
     }
 }

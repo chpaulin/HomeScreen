@@ -20,10 +20,9 @@ namespace HomeScreen
 
             Status = new StatusBarViewModel();
             Weather = new WeatherViewModel(_configuration);
-            //Departures = new DeparturesViewModel(_configuration);
-            CarInfo = new CarInfoViewModel();
-
+            Departures = new DeparturesViewModel(_configuration);            
             Agenda = new AgendaWorker(_configuration);
+            CarInfo = new CarInfoViewModel();
         }        
 
         public WeatherViewModel Weather { get; private set; }
@@ -43,8 +42,9 @@ namespace HomeScreen
             await Task.WhenAny(
                 Agenda.RunAsync(),
                 Status.Init(),
-                Weather.Init()
-                //Departures.Init()
+                Weather.Init(),
+                Departures.Init(),
+                CarInfo.Init()
                 );
         }
     }

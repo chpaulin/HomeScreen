@@ -15,8 +15,7 @@ namespace HomeScreen.Features.Departures
 {
     public class DeparturesViewModel : AsyncInitViewModelBase
     {
-        private const string RISSNE_STATION_NAME = "Rissne T-bana (Sundbyberg kn)";
-        private const string SUNDBYBERG_STATION_NAME = "Sundbyberg station";
+        private const int NO_DEPARTURES_TO_SHOW = 4;
 
         private DeparturesService _departureService;
         private Configuration _configuration;
@@ -40,17 +39,9 @@ namespace HomeScreen.Features.Departures
         {
             var departureData = await _departureService.RetrieveDepartureData();
 
-            if (departureData.Departure.Count == 0)
-            {
-                OfflineUpdateDepatures(DeparturesSundbyberg);
-                OfflineUpdateDepatures(DeparturesRissne);
-                return;
-            }
+            Departures.Clear();
 
-            DeparturesSundbyberg.Clear();
-            DeparturesRissne.Clear();
-
-            foreach (var departure in departureData.Departure.Where(d => DateTime.Parse(d.time) > DateTime.Now))
+            foreach (var departure in departureData.Departure.Where(d => DateTime.Parse(d.time) > DateTime.Now).Take(NO_DEPARTURES_TO_SHOW))
             {
                 var stopTime = DateTime.Parse(departure.rtTime ?? departure.time);
 
@@ -61,22 +52,9 @@ namespace HomeScreen.Features.Departures
                     Number = departure.Product.num
                 };
 
-                if (departure.direction == RISSNE_STATION_NAME && DeparturesRissne.Count < 3)
-                    DeparturesRissne.Add(departureVM);
-                else if (DeparturesSundbyberg.Count < 3)
-                    DeparturesSundbyberg.Add(departureVM);
+                Departures.Add(departureVM);
             }
-        }
-
-        private void OfflineUpdateDepatures(IList<DepartureViewModel> departures)
-        {
-            var departed = departures.Where(d => d.Departs < DateTime.Now);
-
-            foreach (var departure in departed)
-            {
-                departures.Remove(departure);
-            }
-        }
+        }        
 
         public override async Task Init()
         {
@@ -88,7 +66,6 @@ namespace HomeScreen.Features.Departures
                 await SetUpDepartureChecker();
         }
 
-        public ObservableCollection<DepartureViewModel> DeparturesSundbyberg { get; } = new ObservableCollection<DepartureViewModel>();
-        public ObservableCollection<DepartureViewModel> DeparturesRissne { get; } = new ObservableCollection<DepartureViewModel>();
+        public ObservableCollection<DepartureViewModel> Departures { get; } = new ObservableCollection<DepartureViewModel>();
     }
 }

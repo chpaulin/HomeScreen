@@ -17,18 +17,19 @@
         <Grid Background="Black" Width="1050" Height="1680">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="640"/>
+                <RowDefinition Height=".6*"/>
+                <RowDefinition Height=".4*"/>
+                <RowDefinition Height="150"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width=".6*"/>
                 <ColumnDefinition Width=".4*"/>
             </Grid.ColumnDefinitions>
             <statusbar:StatusBarView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Status}"/>
-            <agenda:AgendaView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Agenda}"/>           
-            <!--<departures:DeparturesView Grid.Row="2" Grid.Column="0" DataContext="{Binding Departures}" />-->
-            <carinfo:CarInfoView Grid.Row="2" Grid.Column="0" DataContext="{Binding CarInfo}" VerticalAlignment="Bottom" />
-            <weather:WeatherView Grid.Row="2" Grid.Column="1" DataContext="{Binding Weather}" />
+            <agenda:AgendaView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Agenda}"/>
+            <departures:DeparturesView Grid.Row="2" Grid.Column="0" DataContext="{Binding Departures}" Grid.RowSpan="2" />
+            <carinfo:CarInfoView Grid.Row="3" Grid.Column="0" DataContext="{Binding CarInfo}" VerticalAlignment="Bottom" />
+            <weather:WeatherView Grid.Row="2" Grid.Column="1" DataContext="{Binding Weather}" Grid.RowSpan="2" />
         </Grid>
     </Viewbox>
 </Page>
