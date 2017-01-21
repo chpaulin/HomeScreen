@@ -16,7 +16,7 @@ namespace HomeScreen.Features.CarInfo
             get { return _stateOfCharge; }
             set
             {
-                _stateOfCharge = 0.62;
+                _stateOfCharge = value;
                 RaisePropertyChanged();
             }
         }

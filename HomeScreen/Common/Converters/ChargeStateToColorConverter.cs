@@ -17,17 +17,17 @@ namespace HomeScreen.Common.Converters
             {
                 var doubleValue = (double)value;
 
-                if(doubleValue <= 0.06)
-                    return Colors.Red;
+                if (doubleValue <= 0.06)
+                    return App.Current.Resources["VeryLowBatteryBrush"] as SolidColorBrush;
 
                 if (doubleValue > 0.06 && doubleValue <= 0.33)
-                    return Colors.Orange;
+                    return App.Current.Resources["LowBatteryBrush"] as SolidColorBrush;
 
                 if (doubleValue > 0.30)
-                    return Colors.LightGreen;
+                    return App.Current.Resources["HighBatteryBrush"] as SolidColorBrush;
             }
 
-            return (Color)App.Current.Resources["SystemBaseHighColor"];
+            return App.Current.Resources["SystemControlForegroundBaseMediumBrush"] as SolidColorBrush;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
