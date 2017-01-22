@@ -27,6 +27,8 @@ namespace HomeScreen.Features.Weather
         private string _icon;
         private WeatherService _weatherService;
         private Configuration _configuration;
+        private TimeSpan _dawn;
+        private TimeSpan _dusk;
 
         public WeatherViewModel(Configuration configuration)
         {
@@ -71,12 +73,14 @@ namespace HomeScreen.Features.Weather
 
             foreach (var forecast in forecasts.Take(FORCAST_LENGHT))
             {
+                var icons = GetIcons(forecast.Date.TimeOfDay, _dawn, _dusk);
+
                 var forecastVM = new ForecastViewModel
                 {
                     Temperature = forecast.Temperature,
                     MinTemperature = forecast.MinTemperature,
                     MaxTemperature = forecast.MaxTemperature,
-                    Icon = GetWeatherIcon(forecast.WeatherTypeId, Constants.WeatherIconsDay),
+                    Icon = GetWeatherIcon(forecast.WeatherTypeId, icons),
                     Date = forecast.Date
                 };
 
@@ -98,19 +102,17 @@ namespace HomeScreen.Features.Weather
         {
             Temperature = currentWeatherData?.main?.temp ?? 0;
 
-            var dawn = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData?.sys?.sunrise ?? 0).TimeOfDay;
-            var dusk = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData?.sys?.sunset ?? 0).TimeOfDay;
+            _dawn = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData?.sys?.sunrise ?? 0).TimeOfDay;
+            _dusk = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData?.sys?.sunset ?? 0).TimeOfDay;
 
-            var icons = GetIcons(dawn, dusk);
+            var icons = GetIcons(DateTime.Now.TimeOfDay, _dawn, _dusk);
 
             Icon = GetWeatherIcon(currentWeatherData.weather.FirstOrDefault()?.id, icons);
         }
 
-        private IDictionary<int, string> GetIcons(TimeSpan dawn, TimeSpan dusk)
+        private IDictionary<int, string> GetIcons(TimeSpan timeOfDay, TimeSpan dawn, TimeSpan dusk)
         {
-            var now = DateTime.Now.TimeOfDay;
-
-            if (dawn <= now && now <= dusk) //Day
+            if (dawn <= timeOfDay && timeOfDay <= dusk) //Day
                 return Constants.WeatherIconsDay;
 
             return Constants.WeatherIconsNight;
