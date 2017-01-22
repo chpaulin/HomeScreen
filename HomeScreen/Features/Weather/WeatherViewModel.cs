@@ -96,13 +96,10 @@ namespace HomeScreen.Features.Weather
 
         private void UpdateCurrentWeatherData(CurrentWeatherConditions currentWeatherData)
         {
-            if (currentWeatherData.main.temp == 0d)
-                return;
+            Temperature = currentWeatherData?.main?.temp ?? 0;
 
-            Temperature = currentWeatherData.main.temp;
-
-            var dawn = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData.sys.sunrise).TimeOfDay;
-            var dusk = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData.sys.sunset).TimeOfDay;
+            var dawn = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData?.sys?.sunrise ?? 0).TimeOfDay;
+            var dusk = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData?.sys?.sunset ?? 0).TimeOfDay;
 
             var icons = GetIcons(dawn, dusk);
 
