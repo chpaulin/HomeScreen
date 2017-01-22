@@ -21,11 +21,11 @@ namespace HomeScreen.Features.Departures
         }
 
 
-        public async Task<DepartureData> RetrieveDepartureData()
+        public async Task<DepartureData> RetrieveDepartureData(int count)
         {
             var outcome = await PollyUtility.ExecuteWebRequest(async () =>
                 {
-                    var url = _configuration.Settings["departuresDataUrl"];
+                    var url = string.Format(_configuration.Settings["departuresDataUrl"], count);
 
                     var request = WebRequest.CreateHttp(url);
                     var response = await request.GetResponseAsync();

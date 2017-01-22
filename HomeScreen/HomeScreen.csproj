@@ -202,6 +202,7 @@
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Messages\AgendaChangedEvent.cs" />
     <Compile Include="Messages\ConfigurationLoadedEvent.cs" />
+    <Compile Include="Messages\DepartureDepartedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\IAsyncWorker.cs" />
   </ItemGroup>

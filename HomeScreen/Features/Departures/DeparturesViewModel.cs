@@ -23,42 +23,66 @@ namespace HomeScreen.Features.Departures
         public DeparturesViewModel(Configuration configuration)
         {
             _configuration = configuration;
+
+            Messenger.Default.Register<DepartureDepartedEvent>(this, OnDepartureDeparted);
+        }
+
+        private void OnDepartureDeparted(DepartureDepartedEvent eventArgs)
+        {
+            Departures.Remove(eventArgs.Departure);
         }
 
         private async Task SetUpDepartureChecker()
         {
-            await UpdateDepartureData();
+            var initialDepartureData = await _departureService.RetrieveDepartureData(6);
+
+            UpdateDepartureData(initialDepartureData);
 
             Observable
                 .Interval(TimeSpan.FromSeconds(30))
                 .ObserveOnDispatcher()
-                .Subscribe(async (_) => await UpdateDepartureData());
+                .Subscribe(async (_) =>
+                {
+                    var departureData = await _departureService.RetrieveDepartureData(6);
+                    UpdateDepartureData(departureData);
+                });
         }
 
-        private async Task UpdateDepartureData()
+        private void UpdateDepartureData(DepartureData departureData)
         {
-            var departureData = await _departureService.RetrieveDepartureData();
-
-            Departures.Clear();
-
             foreach (var departure in departureData.Departure.Where(d => GetDepartureTime(d) > DateTime.Now).Take(NO_DEPARTURES_TO_SHOW))
             {
                 var stopTime = GetDepartureTime(departure);
+                var originalStopTime = GetOriginalDepartureTime(departure);
 
-                var departureVM = new DepartureViewModel
+                if (Departures.Any(d => d.OriginalDeparture == originalStopTime))
                 {
-                    Departs = stopTime,
-                    Destination = departure.direction,
-                    Number = departure.Product.num
-                };
+                    //Update
+                }
+                else
+                {
+                    //New
+                    var departureVM = new DepartureViewModel
+                    {
+                        Departs = stopTime,
+                        OriginalDeparture = originalStopTime,
+                        Destination = departure.direction,
+                        Number = departure.Product.num
+                    };
 
-                Departures.Add(departureVM);
+                    Departures.Add(departureVM);
+                }
             }
         }
 
         private DateTime GetDepartureTime(Departure departureData)
         {
             return DateTime.Parse(departureData.date).Add(DateTime.Parse(departureData.rtTime ?? departureData.time).TimeOfDay);
+        }
+
+        private DateTime GetOriginalDepartureTime(Departure departureData)
+        {
+            return DateTime.Parse(departureData.date).Add(DateTime.Parse(departureData.time).TimeOfDay);
         }
 
         public override async Task Init()

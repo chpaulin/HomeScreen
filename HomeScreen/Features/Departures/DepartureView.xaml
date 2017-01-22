@@ -9,11 +9,7 @@
     mc:Ignorable="d"
     d:DesignHeight="100"
     d:DesignWidth="250" RequestedTheme="Dark">
-    <UserControl.Resources>
-        <c:DateTimeToDepartureConverter x:Key="DateTimeToDepartureConverter"/>
-    </UserControl.Resources>
-
-    <Grid Margin="0,5">
+        <Grid Margin="0,5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="Auto"/>
@@ -26,6 +22,6 @@
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Fill="{StaticResource SystemControlHighlightAccentBrush}"/>
         <TextBlock Grid.Column="1" Text="{Binding Line, FallbackValue=504}" FontSize="42" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Left" Margin="10,-7,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
         <TextBlock Grid.Column="2" Text="{Binding Destination, FallbackValue=Rissne}" FontSize="32" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" HorizontalAlignment="Left" Margin="10,-4,0,0" VerticalAlignment="Top"/>
-        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Departs, Converter={StaticResource DateTimeToDepartureConverter}, FallbackValue=32 min}" FontSize="36" Foreground="{StaticResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TimeToDeparture, FallbackValue=32 min}" FontSize="36" Foreground="{StaticResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>
