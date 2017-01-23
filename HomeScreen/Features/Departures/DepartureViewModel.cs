@@ -10,16 +10,19 @@ namespace HomeScreen.Features.Departures
     public class DepartureViewModel : ViewModelBase
     {
         private readonly IDisposable _subscription;
+        private Departure _departure;
 
-        public DepartureViewModel()
+        public DepartureViewModel(Departure departure)
         {
+            _departure = departure;
+
             _subscription = Observable
                 .Interval(TimeSpan.FromSeconds(1))
                 .ObserveOnDispatcher()
-                .Subscribe((_) => Update());
+                .Subscribe((_) => Refresh());
         }
 
-        private void Update()
+        private void Refresh()
         {
             if (Departs < DateTime.Now)
             {
@@ -30,10 +33,37 @@ namespace HomeScreen.Features.Departures
                 RaisePropertyChanged(nameof(TimeToDeparture));
         }
 
-        public DateTime Departs { get; internal set; }
-        public string Destination { get; internal set; }
-        public string Number { get; internal set; }
-        public DateTime OriginalDeparture { get; internal set; }
+        public DateTime Departs
+        {
+            get
+            {
+                return _departure.GetDepartureTime();
+            }
+        }
+
+        public string Destination
+        {
+            get
+            {
+                return _departure.direction;
+            }
+        }
+
+        public string Number
+        {
+            get
+            {
+                return _departure.Product.num;
+            }
+        }
+
+        public DateTime OriginalDeparture
+        {
+            get
+            {
+                return _departure.GetOriginalDepartureTime();
+            }
+        }
 
         public string TimeToDeparture
         {
@@ -49,6 +79,11 @@ namespace HomeScreen.Features.Departures
 
                 return $"{timeToDeparture.TotalMinutes:0} min";
             }
+        }
+
+        public void Update(Departure departure)
+        {
+            _departure = departure;
         }
     }
 }

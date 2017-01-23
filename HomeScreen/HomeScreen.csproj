@@ -168,6 +168,7 @@
     </Compile>
     <Compile Include="Features\CarInfo\CarInfoViewModel.cs" />
     <Compile Include="Features\Departures\DepartureData.cs" />
+    <Compile Include="Features\Departures\DepartureExtensions.cs" />
     <Compile Include="Features\Departures\DeparturesService.cs" />
     <Compile Include="Features\Departures\DeparturesView.xaml.cs">
       <DependentUpon>DeparturesView.xaml</DependentUpon>

@@ -39,7 +39,7 @@ namespace HomeScreen.Features.Departures
             UpdateDepartureData(initialDepartureData);
 
             Observable
-                .Interval(TimeSpan.FromSeconds(30))
+                .Interval(TimeSpan.FromSeconds(2))
                 .ObserveOnDispatcher()
                 .Subscribe(async (_) =>
                 {
@@ -50,40 +50,23 @@ namespace HomeScreen.Features.Departures
 
         private void UpdateDepartureData(DepartureData departureData)
         {
-            foreach (var departure in departureData.Departure.Where(d => GetDepartureTime(d) > DateTime.Now).Take(NO_DEPARTURES_TO_SHOW))
+            foreach (var departure in departureData.Departure.Where(d => d.GetDepartureTime() > DateTime.Now).Take(NO_DEPARTURES_TO_SHOW))
             {
-                var stopTime = GetDepartureTime(departure);
-                var originalStopTime = GetOriginalDepartureTime(departure);
+                var existingDeparture = Departures.FirstOrDefault(d => d.OriginalDeparture == departure.GetOriginalDepartureTime());
 
-                if (Departures.Any(d => d.OriginalDeparture == originalStopTime))
+                if (existingDeparture != null)
                 {
                     //Update
+                    existingDeparture.Update(departure);
                 }
-                else
+                else if(Departures.Count < 4)
                 {
                     //New
-                    var departureVM = new DepartureViewModel
-                    {
-                        Departs = stopTime,
-                        OriginalDeparture = originalStopTime,
-                        Destination = departure.direction,
-                        Number = departure.Product.num
-                    };
-
+                    var departureVM = new DepartureViewModel(departure);
                     Departures.Add(departureVM);
                 }
             }
-        }
-
-        private DateTime GetDepartureTime(Departure departureData)
-        {
-            return DateTime.Parse(departureData.date).Add(DateTime.Parse(departureData.rtTime ?? departureData.time).TimeOfDay);
-        }
-
-        private DateTime GetOriginalDepartureTime(Departure departureData)
-        {
-            return DateTime.Parse(departureData.date).Add(DateTime.Parse(departureData.time).TimeOfDay);
-        }
+        }        
 
         public override async Task Init()
         {
