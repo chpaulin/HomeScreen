@@ -14,7 +14,7 @@
       <GuideModels>
         <GuideModel>
           <Guides>
-            <Guide Alignment="Top" Position="52" />
+            <Guide Alignment="Top" Position="120" />
           </Guides>
         </GuideModel>
       </GuideModels>
