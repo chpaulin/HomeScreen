@@ -20,8 +20,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Fill="{StaticResource SystemControlHighlightAccentBrush}"/>
-        <TextBlock Grid.Column="1" Text="{Binding Line, FallbackValue=504}" FontSize="42" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Left" Margin="10,-7,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
+        <TextBlock Grid.Column="1" Text="{Binding Line, FallbackValue=504}" FontSize="42" Foreground="{ThemeResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Left" Margin="10,-7,0,0" VerticalAlignment="Top" Grid.RowSpan="2" />
         <TextBlock Grid.Column="2" Text="{Binding Destination, FallbackValue=Rissne}" FontSize="32" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" HorizontalAlignment="Left" Margin="10,-4,0,0" VerticalAlignment="Top"/>
-        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TimeToDeparture, FallbackValue=32 min}" FontSize="36" Foreground="{StaticResource SystemControlHighlightAccentBrush}" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding TimeToDeparture, FallbackValue=32 min}" FontSize="36" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" RequestedTheme="Dark"/>
     </Grid>
 </UserControl>
