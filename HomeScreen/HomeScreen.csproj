@@ -114,6 +114,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\sl.jpg" />
+    <Content Include="Assets\Tesla-T-logo.jpg" />
     <Content Include="Assets\typicons.ttf" />
     <None Include="Design\projectGuides.guides" />
     <None Include="project.json" />
@@ -167,6 +168,9 @@
       <DependentUpon>CarInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\CarInfo\CarInfoViewModel.cs" />
+    <Compile Include="Features\CarInfo\MyUserControl1.xaml.cs">
+      <DependentUpon>MyUserControl1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Features\Departures\DepartureData.cs" />
     <Compile Include="Features\Departures\DepartureExtensions.cs" />
     <Compile Include="Features\Departures\DeparturesService.cs" />
@@ -249,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Features\CarInfo\CarInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\CarInfo\MyUserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,15 @@
+﻿<UserControl
+    x:Class="HomeScreen.Features.CarInfo.MyUserControl1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HomeScreen.Features.CarInfo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <Path Data="M58.2226,19.814 C58.2226,19.814 76.0007,40.7045 76.0007,40.7045 C76.0007,40.7045 93.5559,20.0358 93.5559,20.0358 C118.223,20.9248 144.712,30.851 144.222,32.259 C140.666,42.4816 122.445,50.705 122.445,50.705 C123.557,38.4824 98.8901,40.2605 98.8901,40.2605 L76.2227,152.038 C76.2227,152.038 52.9414,40.5775 52.9414,40.5775 C26.9732,39.2344 29.4362,50.659 29.4362,50.659 C29.4362,50.659 12.223,43.5936 8.00095,32.259 C8.00095,32.259 31.3332,22.0374 58.2226,19.814 z M77.4869,0.002411 C99.758,0.103958 125.301,3.42898 152,13.1018 C152,13.1018 146.295,25.76 146.295,25.76 C146.295,25.76 78.3484,-3.19707 5.70453,25.76 C5.70453,25.76 0,13.1018 0,13.1018 C0,13.1018 31.8843,-0.205513 77.4869,0.002411 z" Fill="#FFE51837" Margin="124,72.981,124,74.981" Stretch="Fill" UseLayoutRounding="False" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition"/>
+    </Grid>
+</UserControl>
