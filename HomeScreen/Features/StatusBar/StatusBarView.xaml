@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:c="using:HomeScreen.Common.Converters"
     xmlns:local="using:HomeScreen.Features.StatusBar"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core" xmlns:Media="using:Microsoft.Xaml.Interactions.Media"
     x:Class="HomeScreen.Features.StatusBar.StatusBarView"
     mc:Ignorable="d"
     Height="100"
@@ -13,7 +14,20 @@
     <UserControl.Resources>
         <c:TodaysDateConverter x:Key="TodaysDateConverter" />
         <c:IntegerToStringConverter x:Key="IntegerToStringConverter"/>
+        <Storyboard x:Key="TickStoryboard" RepeatBehavior="Forever" AutoReverse="False">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="textBlock">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                <DiscreteDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </UserControl.Resources>
+
+    <Interactivity:Interaction.Behaviors>
+        <Core:EventTriggerBehavior EventName="Loaded">
+            <Media:ControlStoryboardAction Storyboard="{StaticResource TickStoryboard}"/>
+        </Core:EventTriggerBehavior>
+    </Interactivity:Interaction.Behaviors>
 
     <Grid Padding="20,0" Background="{StaticResource SystemControlHighlightAccentBrush}">
         <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding CurrentDate, Converter={StaticResource TodaysDateConverter}, FallbackValue=DEN 25 JUNI 2016}" Foreground="{ThemeResource SystemControlHighlightAltBaseHighBrush}" FontSize="48" FontWeight="Bold"/>
