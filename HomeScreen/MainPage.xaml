@@ -28,7 +28,7 @@
             <statusbar:StatusBarView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Status}"/>
             <agenda:AgendaView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding Agenda}"/>
             <departures:DeparturesView Grid.Row="2" Grid.Column="0" DataContext="{Binding Departures}" Grid.RowSpan="2" />
-            <carinfo:CarInfoView Grid.Row="3" Grid.Column="0" DataContext="{Binding CarInfo}" />
+            <carinfo:CarInfoView Grid.Row="3" Grid.Column="0" DataContext="{Binding CarInfo}" VerticalAlignment="Bottom" />
             <weather:WeatherView Grid.Row="2" Grid.Column="1" DataContext="{Binding Weather}" Grid.RowSpan="2" Margin="0,2,0,0"/>
         </Grid>
     </Viewbox>

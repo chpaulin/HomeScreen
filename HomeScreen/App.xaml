@@ -13,6 +13,6 @@
 
         <SolidColorBrush x:Key="VeryLowBatteryBrush" Color="Red" />
         <SolidColorBrush x:Key="LowBatteryBrush" Color="Orange" />
-        <SolidColorBrush x:Key="HighBatteryBrush" Color="LightGreen" />
+        <SolidColorBrush x:Key="HighBatteryBrush" Color="Green" />
     </Application.Resources>
 </Application>
