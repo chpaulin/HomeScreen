@@ -13,25 +13,12 @@ namespace HomeScreen.Features.StatusBar
 {
     public class StatusBarViewModel : AsyncInitViewModelBase
     {
-        private DateTime _currentDate;
-        private int _hour;
-        private int _minute;
-
-        private void SetCurrentTime()
-        {
-            CurrentDate = DateTime.Now;
-
-            Hour = CurrentDate.Hour;
-
-            Minute = CurrentDate.Minute;
-        }
-
         public override async Task Init()
         {
-            SetCurrentTime();
-
             //Sync with minute change
-            await Task.Delay(TimeSpan.FromSeconds(60 - DateTime.Now.Second));                  
+            await Task.Delay(TimeSpan.FromSeconds(60 - DateTime.Now.Second));
+
+            RaisePropertyChanged(() => Minute);
 
             var minutesChanges = Observable
                 .Interval(TimeSpan.FromMinutes(1))
@@ -40,51 +27,36 @@ namespace HomeScreen.Features.StatusBar
                 .ObserveOnDispatcher();
 
             minutesChanges
-                .Subscribe((minute) => Minute = minute);
+                .Subscribe((_) => RaisePropertyChanged(() => Minute));
 
             var hourChanges = minutesChanges
                 .Select((_) => DateTime.Now.Hour)
                 .DistinctUntilChanged();
 
             hourChanges
-                .Subscribe((hour) => Hour = hour);
+                .Subscribe((_) => RaisePropertyChanged(() => Hour));
 
             var dateChanges = hourChanges
                 .Select((_) => DateTime.Today)
                 .DistinctUntilChanged();
 
             dateChanges
-                .Subscribe((date) => CurrentDate = date);
+                .Subscribe((_) => RaisePropertyChanged(() => CurrentDate));
         }
 
         public int Hour
         {
-            get { return _hour; }
-            set
-            {
-                _hour = value;
-                RaisePropertyChanged();
-            }
+            get { return DateTime.Now.Hour; }
         }
 
         public int Minute
         {
-            get { return _minute; }
-            set
-            {
-                _minute = value;
-                RaisePropertyChanged();
-            }
+            get { return DateTime.Now.Minute; }
         }
 
         public DateTime CurrentDate
         {
-            get { return _currentDate; }
-            set
-            {
-                _currentDate = value;
-                RaisePropertyChanged();
-            }
+            get { return DateTime.Today; }
         }
     }
 }
