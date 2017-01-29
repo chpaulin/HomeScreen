@@ -36,7 +36,7 @@ namespace HomeScreen.Features.Departures
         {
             var initialDepartureData = await _departureService.RetrieveDepartureData(6);
 
-            UpdateDepartureData(initialDepartureData);
+            await UpdateDepartureData(initialDepartureData);
 
             Observable
                 .Interval(TimeSpan.FromSeconds(30))
@@ -44,11 +44,11 @@ namespace HomeScreen.Features.Departures
                 .Subscribe(async (_) =>
                 {
                     var departureData = await _departureService.RetrieveDepartureData(6);
-                    UpdateDepartureData(departureData);
+                    await UpdateDepartureData(departureData);
                 });
         }
 
-        private void UpdateDepartureData(DepartureData departureData)
+        private async Task UpdateDepartureData(DepartureData departureData)
         {
             foreach (var departure in departureData.Departure.Where(d => d.GetDepartureTime() > DateTime.Now).Take(NO_DEPARTURES_TO_SHOW))
             {
@@ -64,6 +64,7 @@ namespace HomeScreen.Features.Departures
                     //New
                     var departureVM = new DepartureViewModel(departure);
                     Departures.Add(departureVM);
+                    await departureVM.Init();
                 }
             }
         }        
