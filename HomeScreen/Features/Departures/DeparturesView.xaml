@@ -15,7 +15,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Viewbox HorizontalAlignment="Left">
-            <Viewbox Height="100">
+            <Viewbox Height="85">
                 <Grid Height="156" Width="190">
                     <Ellipse Margin="35,0,35,36" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" Width="120" Height="120" StrokeThickness="10"/>
                     <Path Data="M143.917,245.725 L151.75,245.725 L151.75,249.386 L166.667,249.386 L166.667,250.146 L143.917,250.146 z" HorizontalAlignment="Right" Margin="0,31.995,55.329,71.33" Stretch="Fill" StrokeThickness="10" UseLayoutRounding="False" Width="30.343" Fill="{ThemeResource SystemControlForegroundBaseHighBrush}" d:LayoutOverrides="TopPosition, BottomPosition"/>

@@ -13,6 +13,8 @@ namespace HomeScreen.Features.Agenda
 {
     public class AgendaWorker : IAsyncWorker
     {
+        private const double MAXIMUM_CONTENT = 100;
+
         private readonly Configuration _configuration;
         private readonly AgendaService _agendaService;
 
@@ -64,12 +66,12 @@ namespace HomeScreen.Features.Agenda
         {
             var events = await _agendaService.RetrieveCalendarData();
 
-            var entryCount = 0;
+            var entryCount = 0d;
             var date = DateTime.Today;
 
             var currentEvents = new List<Day>();
 
-            while (entryCount < 7)
+            while (entryCount < MAXIMUM_CONTENT)
             {
                 var day = new Day
                 {
@@ -89,16 +91,39 @@ namespace HomeScreen.Features.Agenda
                 if (day.Events.Count > 0)
                 {
                     currentEvents.Add(day);
-                    entryCount += day.Events.Count + 1;
                 }
 
                 date += TimeSpan.FromDays(1);
+
+                entryCount += GetDayEntryCount(day);
             }
 
-            if (entryCount > 8)
+            if (entryCount > MAXIMUM_CONTENT)
                 currentEvents.RemoveAt(currentEvents.Count - 1);
 
             return currentEvents;
+        }
+
+        private double GetDayEntryCount(Day day)
+        {
+            double entryCount = 6;
+
+            foreach(var @event in day.Events)
+            {
+                switch (@event.EventType)
+                {
+                    case Event.ALL_DAY_EVENT:
+                    case Event.NO_EVENTS:
+                    case Event.PERIODIC_EVENT:
+                        entryCount += 8;
+                        break;
+                    case Event.NORMAL_EVENT:
+                        entryCount += 12;
+                        break;
+                }
+            }
+
+            return entryCount;
         }
 
         public async Task RunAsync()

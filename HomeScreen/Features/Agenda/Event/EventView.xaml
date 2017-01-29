@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:c="using:HomeScreen.Common.Converters"
     mc:Ignorable="d"
-    d:DesignHeight="150"
+    d:DesignHeight="120"
     d:DesignWidth="1050" RequestedTheme="Dark">
     <UserControl.Resources>
         <c:DateTimeToTimeStringConverter x:Key="DateTimeToTimeStringConverter"/>
@@ -24,8 +24,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Rectangle Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Fill="{StaticResource SystemControlHighlightAccentBrush}"/>
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Start, Converter={StaticResource DateTimeToTimeStringConverter}, FallbackValue='08:00'}" FontSize="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="10,0,0,0" />
-        <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="WrapWholeWords" Text="{Binding Subject, FallbackValue='Chris lämna på dagis'}" FontSize="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="40,0,0,0" />
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Start, Converter={StaticResource DateTimeToTimeStringConverter}, FallbackValue='08:00'}" FontSize="42" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="10,0,0,0" />
+        <TextBlock Grid.Column="2" Grid.Row="0" TextWrapping="WrapWholeWords" Text="{Binding Subject, FallbackValue='Chris lämna på dagis'}" FontSize="42" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" Margin="40,0,0,0" />
         <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding Duration, FallbackValue='1 timme, 25 minuter'}" FontSize="36" Foreground="{StaticResource SystemControlHighlightAccentBrush}" Margin="40,0,0,0" />
     </Grid>
 </UserControl>
