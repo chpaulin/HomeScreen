@@ -39,7 +39,7 @@ namespace HomeScreen.Features.Departures
             UpdateDepartureData(initialDepartureData);
 
             Observable
-                .Interval(TimeSpan.FromSeconds(2))
+                .Interval(TimeSpan.FromSeconds(30))
                 .ObserveOnDispatcher()
                 .Subscribe(async (_) =>
                 {
