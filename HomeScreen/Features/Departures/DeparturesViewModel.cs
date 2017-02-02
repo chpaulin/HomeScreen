@@ -53,7 +53,9 @@ namespace HomeScreen.Features.Departures
 
         private async Task UpdateDepartureData(DepartureData departureData)
         {
-            foreach (var departure in departureData.Departure.Where(d => d.GetDepartureTime() > DateTime.Now).Take(NO_DEPARTURES_TO_SHOW))
+            var initTasks = new List<Task>();
+
+            foreach (var departure in departureData.Departure)
             {
                 var existingDeparture = Departures.FirstOrDefault(d => d.OriginalDeparture == departure.GetOriginalDepartureTime());
 
@@ -67,9 +69,11 @@ namespace HomeScreen.Features.Departures
                     //New
                     var departureVM = new DepartureViewModel(departure);
                     Departures.Add(departureVM);
-                    await departureVM.Init();
+                    initTasks.Add(departureVM.Init());
                 }
             }
+
+            await Task.WhenAll(initTasks);
         }        
 
         public override async Task Init()

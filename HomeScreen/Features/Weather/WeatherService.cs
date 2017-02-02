@@ -69,6 +69,9 @@ namespace HomeScreen.Features.Weather
                 }
             });
 
+            if (outcome.Result == null)
+                return new List<Forecast>();
+
             return outcome.Result;
         }
     }
