@@ -24,7 +24,7 @@ namespace HomeScreen.Features.Agenda
         {
             return new Event
             {
-                EventType = Event.ALL_DAY_EVENT,
+                EventType = Event.HOLIDAY_EVENT,
                 Subject = subject
             };
         }

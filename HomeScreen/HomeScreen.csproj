@@ -144,6 +144,9 @@
     <Compile Include="Features\Agenda\DateSignificance.cs" />
     <Compile Include="Features\Agenda\DayViewModel.cs" />
     <Compile Include="Features\Agenda\EventData.cs" />
+    <Compile Include="Features\Agenda\Event\HollidayEventView.xaml.cs">
+      <DependentUpon>HollidayEventView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Features\Agenda\Event\NoEventsView.xaml.cs">
       <DependentUpon>NoEventsView.xaml</DependentUpon>
     </Compile>
@@ -241,6 +244,10 @@
     <Page Include="Features\Agenda\AgendaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Features\Agenda\Event\HollidayEventView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Features\Agenda\Event\NoEventsView.xaml">
       <Generator>MSBuild:Compile</Generator>

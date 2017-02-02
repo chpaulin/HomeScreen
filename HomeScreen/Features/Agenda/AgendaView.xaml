@@ -29,6 +29,7 @@
                                     <Grid>
                                         <local:EventView Visibility="{Binding EventType, ConverterParameter=2, Converter={StaticResource IntegerToVisibleConverter}}" Height="120"/>
                                         <local:AllDayEventView Visibility="{Binding EventType, ConverterParameter=1, Converter={StaticResource IntegerToVisibleConverter}}" Height="80"/>
+                                        <local:HollidayEventView Visibility="{Binding EventType, ConverterParameter=4, Converter={StaticResource IntegerToVisibleConverter}}" Height="80"/>
                                         <local:NoEventsView Visibility="{Binding EventType, ConverterParameter=0, Converter={StaticResource IntegerToVisibleConverter}}" Height="80"/>
                                     </Grid>
                                 </DataTemplate>
