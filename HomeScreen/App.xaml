@@ -9,7 +9,7 @@
     <Application.Resources>
         <c:DebugConverter x:Key="DebugConverter" />
         <c:BoolToVisibiltyConverter x:Key="BoolToVisibiltyConverter"/>
-        <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="#FF881798" />
+        <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="#FF9538A2" />
 
         <SolidColorBrush x:Key="VeryLowBatteryBrush" Color="Red" />
         <SolidColorBrush x:Key="LowBatteryBrush" Color="Orange" />
