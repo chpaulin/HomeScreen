@@ -13,7 +13,7 @@ namespace HomeScreen.Features.Agenda
 {
     public class AgendaWorker : IAsyncWorker
     {
-        private const double MAXIMUM_CONTENT = 100;
+        private const double MAXIMUM_CONTENT = 90;
 
         private readonly Configuration _configuration;
         private readonly AgendaService _agendaService;
