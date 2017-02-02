@@ -19,7 +19,7 @@
             <RowDefinition Height="100" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-75,-10,0">
+        <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-75,-10,0" DataContext="{Binding CurrentWeather, UpdateSourceTrigger=PropertyChanged}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>

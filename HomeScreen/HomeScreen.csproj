@@ -182,16 +182,17 @@
       <DependentUpon>DepartureView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\Departures\DepartureViewModel.cs" />
-    <Compile Include="Features\Weather\CurrentWeatherConditions.cs" />
+    <Compile Include="Features\Weather\Model\CurrentWeatherConditions.cs" />
     <Compile Include="Features\StatusBar\StatusBarView.xaml.cs">
       <DependentUpon>StatusBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\StatusBar\StatusBarViewModel.cs" />
+    <Compile Include="Features\Weather\Model\Forecast.cs" />
     <Compile Include="Features\Weather\ForecastView.xaml.cs">
       <DependentUpon>ForecastView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\Weather\ForecastViewModel.cs" />
-    <Compile Include="Features\Weather\WeatherForecast.cs" />
+    <Compile Include="Features\Weather\Model\WeatherForecast.cs" />
     <Compile Include="Features\Weather\WeatherService.cs" />
     <Compile Include="Features\Weather\WeatherAltView.xaml.cs">
       <DependentUpon>WeatherAltView.xaml</DependentUpon>
@@ -208,6 +209,7 @@
     <Compile Include="Messages\AgendaChangedEvent.cs" />
     <Compile Include="Messages\ConfigurationLoadedEvent.cs" />
     <Compile Include="Messages\DepartureDepartedEvent.cs" />
+    <Compile Include="Messages\ForecastDueEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\IAsyncWorker.cs" />
   </ItemGroup>
