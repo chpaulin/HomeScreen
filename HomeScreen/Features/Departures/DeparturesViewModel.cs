@@ -55,7 +55,7 @@ namespace HomeScreen.Features.Departures
         {
             var initTasks = new List<Task>();
 
-            foreach (var departure in departureData.Departure)
+            foreach (var departure in departureData.Departure.Where(d => d.GetDepartureTime() > DateTime.Now))
             {
                 var existingDeparture = Departures.FirstOrDefault(d => d.OriginalDeparture == departure.GetOriginalDepartureTime());
 
