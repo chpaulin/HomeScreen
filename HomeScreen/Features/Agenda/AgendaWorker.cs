@@ -13,7 +13,7 @@ namespace HomeScreen.Features.Agenda
 {
     public class AgendaWorker : IAsyncWorker
     {
-        private const double MAXIMUM_CONTENT = 100;
+        private const double MAXIMUM_CONTENT = 80;
 
         private readonly Configuration _configuration;
         private readonly AgendaService _agendaService;
@@ -91,11 +91,10 @@ namespace HomeScreen.Features.Agenda
                 if (day.Events.Count > 0)
                 {
                     currentEvents.Add(day);
+                    entryCount += GetDayEntryCount(day);
                 }
 
-                date += TimeSpan.FromDays(1);
-
-                entryCount += GetDayEntryCount(day);
+                date += TimeSpan.FromDays(1);                
             }
 
             if (entryCount > MAXIMUM_CONTENT)
