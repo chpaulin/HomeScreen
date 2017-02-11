@@ -17,7 +17,7 @@ namespace HomeScreen.Common
         {
             return await Policy
                .Handle<WebException>(OnException)
-               .WaitAndRetryForeverAsync((retryCount) => GetTimeout(retryCount))
+               .WaitAndRetryAsync(5, (retryCount) => GetTimeout(retryCount))
                .ExecuteAndCaptureAsync<T>(action);
         }
 
