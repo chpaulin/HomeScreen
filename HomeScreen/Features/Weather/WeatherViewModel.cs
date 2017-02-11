@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
 using HomeScreen.Messages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -24,12 +25,12 @@ namespace HomeScreen.Features.Weather
         private const int FORCAST_LENGHT = 7;
 
         private WeatherService _weatherService;
-        private Configuration _configuration;
+        private FeatureConfig _configuration;
         private TimeSpan _dawn;
         private TimeSpan _dusk;
         private ForecastViewModel _currentWeather;
 
-        public WeatherViewModel(Configuration configuration)
+        public WeatherViewModel(FeatureConfig configuration)
         {
             _configuration = configuration;
         }
@@ -127,12 +128,7 @@ namespace HomeScreen.Features.Weather
         {
             _weatherService = new WeatherService(_configuration);
 
-            if (!_configuration.Loaded)
-                Messenger.Default.Register<ConfigurationLoadedEvent>(this, async (_) => await SetUp());
-            else
-            {
-                await SetUp();
-            }
+            await SetUp();
         }
 
         public ForecastViewModel CurrentWeather

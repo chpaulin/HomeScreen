@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
 using HomeScreen.Features.Agenda.Model;
 using HomeScreen.Messages;
 using System;
@@ -15,10 +16,10 @@ namespace HomeScreen.Features.Agenda
     {
         private const double MAXIMUM_CONTENT = 80;
 
-        private readonly Configuration _configuration;
+        private readonly FeatureConfig _configuration;
         private readonly AgendaService _agendaService;
 
-        public AgendaWorker(Configuration configuration)
+        public AgendaWorker(FeatureConfig configuration)
         {
             _configuration = configuration;
             _agendaService = new AgendaService(_configuration);

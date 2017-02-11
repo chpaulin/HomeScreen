@@ -124,6 +124,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\AsyncInitViewModelBase.cs" />
+    <Compile Include="Common\Configuration\Configuration.cs" />
+    <Compile Include="Common\Configuration\Feature.cs" />
+    <Compile Include="Common\Configuration\Value.cs" />
     <Compile Include="Common\Converters\BoolToVisibiltyConverter.cs" />
     <Compile Include="Common\Converters\ChargeStateToColorConverter.cs" />
     <Compile Include="Common\Converters\DateTimeToDateTimeStringConverter.cs" />
@@ -157,7 +160,7 @@
       <DependentUpon>EventView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\Agenda\Event\EventViewModel.cs" />
-    <Compile Include="Common\Configuration\Configuration.cs" />
+    <Compile Include="Common\Configuration\ConfigurationHelper.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\Converters\DateTimeToDepartureConverter.cs" />
     <Compile Include="Common\Converters\DebugConverter.cs" />
@@ -210,7 +213,6 @@
     </Compile>
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Messages\AgendaChangedEvent.cs" />
-    <Compile Include="Messages\ConfigurationLoadedEvent.cs" />
     <Compile Include="Messages\DepartureDepartedEvent.cs" />
     <Compile Include="Messages\ForecastDueEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

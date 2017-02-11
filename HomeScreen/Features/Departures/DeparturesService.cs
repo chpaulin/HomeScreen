@@ -1,4 +1,5 @@
 ﻿using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
 using Newtonsoft.Json;
 using Polly;
 using System;
@@ -13,13 +14,12 @@ namespace HomeScreen.Features.Departures
 {
     public class DeparturesService
     {
-        private readonly Configuration _configuration;
+        private readonly FeatureConfig _configuration;
 
-        public DeparturesService(Configuration configuration)
+        public DeparturesService(FeatureConfig configuration)
         {
             _configuration = configuration;
         }
-
 
         public async Task<DepartureData> RetrieveDepartureData(int count)
         {

@@ -1,48 +1,18 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using HomeScreen.Messages;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Storage;
 
-namespace HomeScreen.Common
+namespace HomeScreen.Common.Configuration
 {
-    public class Configuration
+    public class Config
     {
-        public async Task LoadConfiguration()
+        public List<FeatureConfig> Features { get; set; }
+
+        public FeatureConfig GetFeature(string feature)
         {
-            var configFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Configuration.json", UriKind.Absolute));
-
-            using (var stream = await configFile.OpenReadAsync())
-            using (var reader = new StreamReader(stream.AsStreamForRead()))
-            {
-                var json = JObject.Parse(reader.ReadToEnd());
-
-                var settings = json["settings"]
-                    .ToArray()
-                    .Select(t =>
-                            new
-                            {
-                                Key = t["key"].Value<string>(),
-                                Value = t["value"].Value<string>()
-                            });
-
-
-                foreach (var setting in settings)
-                {
-                    Settings.Add(setting.Key, setting.Value);
-                }
-            }
-
-            Loaded = true;
-        }      
-
-        public IDictionary<string, string> Settings { get; } = new Dictionary<string, string>();
-
-        public bool Loaded { get; private set; }
+            return Features.FirstOrDefault(f => f.Name.ToUpperInvariant().Equals(feature.ToUpperInvariant()));
+        }
     }
 }

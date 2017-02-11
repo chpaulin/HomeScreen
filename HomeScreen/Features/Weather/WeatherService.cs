@@ -1,4 +1,5 @@
 ﻿using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace HomeScreen.Features.Weather
 {
     public class WeatherService
     {
-        private readonly Configuration _configuration;
+        private readonly FeatureConfig _configuration;
 
-        public WeatherService(Configuration configuration)
+        public WeatherService(FeatureConfig configuration)
         {
             _configuration = configuration;
         }

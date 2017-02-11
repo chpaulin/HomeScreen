@@ -7,23 +7,24 @@ using HomeScreen.Features.Departures;
 using HomeScreen.Features.StatusBar;
 using HomeScreen.Features.Weather;
 using HomeScreen.Features.CarInfo;
+using HomeScreen.Common.Configuration;
 
 namespace HomeScreen
 {
     public class MainViewModel : AsyncInitViewModelBase
     {
-        private readonly Configuration _configuration;
-
         public MainViewModel()
         {
-            _configuration = new Configuration();
+            var configHelper = new ConfigurationHelper();
+
+            var configuration = configHelper.LoadConfiguration();
 
             Status = new StatusBarViewModel();
-            Weather = new WeatherViewModel(_configuration);
-            Departures = new DeparturesViewModel(_configuration);            
-            Agenda = new AgendaWorker(_configuration);
+            Weather = new WeatherViewModel(configuration.GetFeature("weather"));
+            Departures = new DeparturesViewModel(configuration.GetFeature("departures"));
+            Agenda = new AgendaWorker(configuration.GetFeature("agenda"));
             CarInfo = new CarInfoViewModel();
-        }        
+        }
 
         public WeatherViewModel Weather { get; private set; }
 
@@ -36,9 +37,7 @@ namespace HomeScreen
         public CarInfoViewModel CarInfo { get; private set; }
 
         public override async Task Init()
-        {
-            await _configuration.LoadConfiguration();
-
+        {                   
             await Task.WhenAny(
                 Agenda.RunAsync(),
                 Status.Init(),

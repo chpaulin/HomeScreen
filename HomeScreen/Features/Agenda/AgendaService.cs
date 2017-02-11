@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
 using HomeScreen.Messages;
 using Newtonsoft.Json;
 using System;
@@ -24,9 +25,9 @@ namespace HomeScreen.Features.Agenda
         private const string START_DATE_KEY = "DTSTART";
         private const string END_DATE_KEY = "DTEND";
 
-        private readonly Configuration _configuration;
+        private readonly FeatureConfig _configuration;
 
-        public AgendaService(Configuration configuration)
+        public AgendaService(FeatureConfig configuration)
         {
             _configuration = configuration;
         }
