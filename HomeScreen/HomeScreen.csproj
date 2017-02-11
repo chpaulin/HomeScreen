@@ -174,9 +174,6 @@
       <DependentUpon>CarInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\CarInfo\CarInfoViewModel.cs" />
-    <Compile Include="Features\CarInfo\MyUserControl1.xaml.cs">
-      <DependentUpon>MyUserControl1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Features\Departures\DepartureData.cs" />
     <Compile Include="Features\Departures\DepartureExtensions.cs" />
     <Compile Include="Features\Departures\DeparturesService.cs" />
@@ -264,10 +261,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Features\CarInfo\CarInfoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Features\CarInfo\MyUserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
