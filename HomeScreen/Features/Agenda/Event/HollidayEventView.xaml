@@ -11,12 +11,12 @@
     d:DesignWidth="1050" RequestedTheme="Dark">
     <UserControl.Resources>
         <c:DateTimeToTimeStringConverter x:Key="DateTimeToTimeStringConverter"/>
-        <SolidColorBrush x:Key="HolidayBrush" Color="Cyan"/>
+        <SolidColorBrush x:Key="HolidayBrush" Color="#FFBDD8FF"/>
     </UserControl.Resources>
 
     <Grid  Margin="0,10" Background="{ThemeResource SystemControlBackgroundAltHighBrush}" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
