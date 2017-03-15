@@ -23,7 +23,7 @@ namespace HomeScreen
             Weather = new WeatherViewModel(configuration.GetFeature("weather"));
             Departures = new DeparturesViewModel(configuration.GetFeature("departures"));
             Agenda = new AgendaWorker(configuration.GetFeature("agenda"));
-            CarInfo = new CarInfoViewModel();
+            CarInfo = new CarInfoViewModel(configuration.GetFeature("carInfo"));
         }
 
         public WeatherViewModel Weather { get; private set; }

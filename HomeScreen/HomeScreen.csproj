@@ -136,6 +136,8 @@
     <Compile Include="Common\DateToStringUtility.cs" />
     <Compile Include="Common\IAsyncInit.cs" />
     <Compile Include="Common\PollyUtility.cs" />
+    <Compile Include="Common\RESTClient.cs" />
+    <Compile Include="Common\StringExtensions.cs" />
     <Compile Include="Features\Agenda\AgendaData.cs" />
     <Compile Include="Features\Agenda\AgendaModelFactory.cs" />
     <Compile Include="Features\Agenda\AgendaService.cs" />
@@ -170,10 +172,14 @@
     <Compile Include="Features\Agenda\Model\Day.cs" />
     <Compile Include="Features\Agenda\Model\Event.cs" />
     <Compile Include="Features\Agenda\TokenRefreshResponse.cs" />
+    <Compile Include="Features\CarInfo\CarInfoService.cs" />
     <Compile Include="Features\CarInfo\CarInfoView.xaml.cs">
       <DependentUpon>CarInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\CarInfo\CarInfoViewModel.cs" />
+    <Compile Include="Features\CarInfo\Model\ChargeState.cs" />
+    <Compile Include="Features\CarInfo\Model\LoginParameters.cs" />
+    <Compile Include="Features\CarInfo\Model\Session.cs" />
     <Compile Include="Features\Departures\DepartureData.cs" />
     <Compile Include="Features\Departures\DepartureExtensions.cs" />
     <Compile Include="Features\Departures\DeparturesService.cs" />

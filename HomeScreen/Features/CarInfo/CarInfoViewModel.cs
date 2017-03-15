@@ -1,8 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
 using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
+using HomeScreen.Features.CarInfo.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +13,15 @@ namespace HomeScreen.Features.CarInfo
 {
     public class CarInfoViewModel : AsyncInitViewModelBase
     {
-        private double _stateOfCharge = 0.62;
+        private readonly FeatureConfig _configuration;
+
+        private double _stateOfCharge = 0.62;                
+        private CarInfoService _service;
+
+        public CarInfoViewModel(FeatureConfig configuration)
+        {
+            _configuration = configuration;            
+        }
 
         public double StateOfCharge
         {
@@ -39,8 +50,24 @@ namespace HomeScreen.Features.CarInfo
 
         public async override Task Init()
         {
-            //TODO
-            await Task.CompletedTask;
+            _service = new CarInfoService(_configuration);
+
+            await GetChargeState();
+
+            Observable
+               .Interval(TimeSpan.FromMinutes(30))
+               .Subscribe(async (_) => await GetChargeState());
+        }
+
+        private async Task GetChargeState()
+        {
+            var chargeState = await _service.GetChargeState(_configuration.Settings["vehicleId"].As<int>());
+
+            _stateOfCharge = (double)chargeState.response.battery_level / 100;
+
+            RaisePropertyChanged(nameof(StateOfChargePercentage));
+            RaisePropertyChanged(nameof(StateOfChargeKm));
+            RaisePropertyChanged(nameof(StateOfCharge));
         }
     }
 }
