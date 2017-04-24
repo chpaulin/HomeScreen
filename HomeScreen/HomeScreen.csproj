@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HomeScreen</RootNamespace>
     <AssemblyName>HomeScreen</AssemblyName>
-    <DefaultLanguage>sv-SE</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
@@ -20,6 +20,7 @@
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Never</AppxBundle>
     <AppxBundlePlatforms>arm</AppxBundlePlatforms>
+    <PackageCertificateThumbprint>CCCA77E78E11ED21ED7A938EB973994CA19A0782</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -128,6 +129,7 @@
     <Compile Include="Common\Configuration\Feature.cs" />
     <Compile Include="Common\Configuration\Value.cs" />
     <Compile Include="Common\Converters\BoolToVisibiltyConverter.cs" />
+    <Compile Include="Common\Converters\ChargeStateToWidthConverter.cs" />
     <Compile Include="Common\Converters\ChargeStateToColorConverter.cs" />
     <Compile Include="Common\Converters\DateTimeToDateTimeStringConverter.cs" />
     <Compile Include="Common\Converters\DateTimeToTimeStringConverter.cs" />

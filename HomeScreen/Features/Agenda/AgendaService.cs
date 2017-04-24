@@ -137,7 +137,7 @@ namespace HomeScreen.Features.Agenda
 
         private static DateTime GetDate(string dateString)
         {
-            var regEx = new Regex(@"\/\/Microsoft\/Utc" + "\"" + @":([\dT]*)");
+            var regEx = new Regex(@"\/\/Microsoft[a-zA-Z \/\\]*" + "\"" + @":([\dT]*)");
 
             var match = regEx.Match(dateString);
 

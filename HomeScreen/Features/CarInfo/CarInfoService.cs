@@ -2,6 +2,7 @@
 using HomeScreen.Common.Configuration;
 using HomeScreen.Features.CarInfo.Model;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HomeScreen.Features.CarInfo
@@ -54,21 +55,21 @@ namespace HomeScreen.Features.CarInfo
             _currentSession = await _api.PostAsync<Session>("oauth/token", parameters);
         }
 
-        public async Task<ChargeState> GetChargeState(int vehicleId)
+        public async Task<ChargeState> GetChargeState(string vehicleId)
         {
             if (!IsLoggedIn)
                 await Login();
 
             var path = $"api/1/vehicles/{vehicleId}/data_request/charge_state";
 
-            return await _api.GetAsync<ChargeState>(path, new[] { AuthorizationHeader });
+            return await _api.GetAsync<ChargeState>(path, new Dictionary<string, string> { { "Authorization", AuthorizationHeader } });
         }
 
         private string AuthorizationHeader
         {
             get
             {
-                return $"Authorization: Bearer {_currentSession?.access_token}";
+                return $"Bearer {_currentSession?.access_token}";
             }
         }
     }

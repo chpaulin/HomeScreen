@@ -22,6 +22,6 @@ namespace HomeScreen.Features.CarInfo
         public CarInfoView()
         {
             this.InitializeComponent();
-        }
+        }        
     }
 }

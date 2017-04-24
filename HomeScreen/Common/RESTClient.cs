@@ -18,11 +18,17 @@ namespace HomeScreen.Common
             _baseAddress = baseAddress;
         }
 
-        public async Task<T> GetAsync<T>(string path, string[] headers = null)
+        public async Task<T> GetAsync<T>(string path, Dictionary<string, string> headers = null)
         {
             var url = $"{_baseAddress}{path}";
 
             var request = WebRequest.CreateHttp(url);
+
+            foreach(var header in headers.Keys)
+            {
+                request.Headers[header] = headers[header];
+            }
+
             var response = await request.GetResponseAsync();
 
             using (var stream = response.GetResponseStream())
