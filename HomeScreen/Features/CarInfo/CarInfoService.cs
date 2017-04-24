@@ -1,6 +1,7 @@
 ﻿using HomeScreen.Common;
 using HomeScreen.Common.Configuration;
 using HomeScreen.Features.CarInfo.Model;
+using Polly;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -52,7 +53,13 @@ namespace HomeScreen.Features.CarInfo
                 Password = _configuration.Settings["password"]
             };
 
-            _currentSession = await _api.PostAsync<Session>("oauth/token", parameters);
+            var outcome = await PollyUtility.ExecuteWebRequest(async () =>
+            {
+                return await _api.PostAsync<Session>("oauth/token", parameters);
+            });
+
+            if (outcome.Outcome == OutcomeType.Successful)
+                _currentSession = outcome.Result;
         }
 
         public async Task<ChargeState> GetChargeState(string vehicleId)
@@ -62,7 +69,15 @@ namespace HomeScreen.Features.CarInfo
 
             var path = $"api/1/vehicles/{vehicleId}/data_request/charge_state";
 
-            return await _api.GetAsync<ChargeState>(path, new Dictionary<string, string> { { "Authorization", AuthorizationHeader } });
+            var outcome = await PollyUtility.ExecuteWebRequest(async () =>
+            {
+                return await _api.GetAsync<ChargeState>(path, new Dictionary<string, string> { { "Authorization", AuthorizationHeader } });
+            });
+
+            if (outcome.Outcome == OutcomeType.Failure)
+                return ChargeState.Empty;
+
+            return outcome.Result;
         }
 
         private string AuthorizationHeader

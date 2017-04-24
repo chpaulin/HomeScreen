@@ -16,13 +16,13 @@ namespace HomeScreen.Features.CarInfo
         private const double ONE_MILE_IN_KM = 1.609344;
 
         private readonly FeatureConfig _configuration;
-                     
+
         private CarInfoService _service;
         private ChargeState _chargeState = ChargeState.Empty;
 
         public CarInfoViewModel(FeatureConfig configuration)
         {
-            _configuration = configuration;            
+            _configuration = configuration;
         }
 
         public double StateOfCharge
@@ -33,7 +33,7 @@ namespace HomeScreen.Features.CarInfo
         public int StateOfChargePercentage
         {
             get { return _chargeState.response.battery_level; }
-        }       
+        }
 
         public int StateOfChargeKm
         {
@@ -55,6 +55,9 @@ namespace HomeScreen.Features.CarInfo
         private async Task GetChargeState()
         {
             var chargeState = await _service.GetChargeState(_configuration.Settings["vehicleId"]);
+
+            if (chargeState == ChargeState.Empty)
+                return;
 
             _chargeState = chargeState;
 
