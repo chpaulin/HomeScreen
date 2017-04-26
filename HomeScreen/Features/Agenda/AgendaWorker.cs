@@ -55,9 +55,7 @@ namespace HomeScreen.Features.Agenda
                 if (!string.IsNullOrEmpty(dayInfo.helgdag))
                     day.Events.Insert(0, AgendaModelFactory.CreateHolidayEvent(dayInfo.helgdag));
                 else if (!string.IsNullOrEmpty(dayInfo.helgdagsafton))
-                    day.Events.Insert(0, AgendaModelFactory.CreateHolidayEvent(dayInfo.helgdagsafton));
-                else if (!string.IsNullOrEmpty(dayInfo.flaggdag))
-                    day.Events.Insert(0, AgendaModelFactory.CreateHolidayEvent(dayInfo.flaggdag));
+                    day.Events.Insert(0, AgendaModelFactory.CreateHolidayEvent(dayInfo.helgdagsafton));                
             }
 
             return day;

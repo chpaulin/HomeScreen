@@ -11,7 +11,7 @@
     d:DesignWidth="1050" RequestedTheme="Dark">
     <UserControl.Resources>
         <c:DateTimeToTimeStringConverter x:Key="DateTimeToTimeStringConverter"/>
-        <SolidColorBrush x:Key="HolidayBrush" Color="#FFBDD8FF"/>
+        <SolidColorBrush x:Key="HolidayBrush" Color="#FFA23838"/>
     </UserControl.Resources>
 
     <Grid  Margin="0,10" Background="{ThemeResource SystemControlBackgroundAltHighBrush}" >
