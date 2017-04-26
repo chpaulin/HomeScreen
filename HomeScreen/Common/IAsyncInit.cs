@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HomeScreen.Messages
+namespace HomeScreen.Common
 {
-    public class ConfigurationLoadedEvent
+    public interface IAsyncInit
     {
+        Task Init();
     }
 }

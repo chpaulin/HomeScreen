@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ProjectGuidesConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectItemGuides>
+    <ProjectItemGuide TargetFile="Features\CarInfo\CarInfoView.xaml">
+      <GuideModels>
+        <GuideModel>
+          <Guides>
+            <Guide Alignment="Top" Position="120" />
+            <Guide Alignment="Top" Position="70" />
+          </Guides>
+        </GuideModel>
+      </GuideModels>
+    </ProjectItemGuide>
+    <ProjectItemGuide TargetFile="MainPage.xaml">
+      <GuideModels>
+        <GuideModel>
+          <Guides>
+            <Guide Alignment="Top" Position="1070" />
+            <Guide Alignment="Top" Position="970" />
+            <Guide Alignment="Top" Position="1019" />
+          </Guides>
+        </GuideModel>
+      </GuideModels>
+    </ProjectItemGuide>
+    <ProjectItemGuide TargetFile="Features\Weather\WeatherView.xaml">
+      <GuideModels>
+        <GuideModel>
+          <Guides>
+            <Guide Alignment="Top" Position="96" />
+            <Guide Alignment="Top" Position="105" />
+          </Guides>
+        </GuideModel>
+      </GuideModels>
+    </ProjectItemGuide>
+  </ProjectItemGuides>
+</ProjectGuidesConfiguration>

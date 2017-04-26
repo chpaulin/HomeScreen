@@ -1,4 +1,5 @@
 ﻿using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace HomeScreen.Features.Weather
 {
     public class WeatherService
     {
-        private readonly Configuration _configuration;
+        private readonly FeatureConfig _configuration;
 
-        public WeatherService(Configuration configuration)
+        public WeatherService(FeatureConfig configuration)
         {
             _configuration = configuration;
         }
@@ -43,7 +44,7 @@ namespace HomeScreen.Features.Weather
             return outcome.Result;
         }
 
-        public async Task<WeatherForecast> RetrieveForcastWeatherData()
+        public async Task<IEnumerable<Forecast>> RetrieveForcastWeatherData()
         {
             var outcome = await PollyUtility.ExecuteWebRequest(async () =>
             {
@@ -58,12 +59,19 @@ namespace HomeScreen.Features.Weather
                 {
                     var data = JsonConvert.DeserializeObject<WeatherForecast>(await reader.ReadToEndAsync());
 
-                    return data;
+                    return data.list.Select(f => new Forecast
+                    {
+                        Temperature = f.main.temp,
+                        MinTemperature = f.main.temp_min,
+                        MaxTemperature = f.main.temp_max,
+                        WeatherTypeId = f.weather.FirstOrDefault()?.id,
+                        Date = UnixTimeStampUtility.UnixTimeStampToDateTime(f.dt)
+                    });
                 }
             });
 
             if (outcome.Result == null)
-                return WeatherForecast.Empty;
+                return new List<Forecast>();
 
             return outcome.Result;
         }

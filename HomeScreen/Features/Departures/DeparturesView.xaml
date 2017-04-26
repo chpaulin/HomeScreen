@@ -9,33 +9,32 @@
     d:DesignHeight="740"
     d:DesignWidth="525"
     RequestedTheme="Dark">
-    <Grid Margin="20" Background="{ThemeResource SystemControlBackgroundChromeBlackHighBrush}">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="200" />
-            <RowDefinition Height="80" />
+            <RowDefinition Height="100" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".65*"/>
-            <ColumnDefinition Width=".35*"/>
-        </Grid.ColumnDefinitions>
-        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" FontFamily="ms-appx:/Assets/GlyphyxOneNF.otf#Glyphyx One NF" Text="&amp;" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontSize="90" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-        </Grid>
-        <TextBlock Grid.Column="0" Grid.Row="1" Text="Sundbyberg" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" FontSize="48" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-        <ItemsControl Grid.Column="0" Grid.Row="2" ItemsSource="{Binding DeparturesSundbyberg, Converter={StaticResource DebugConverter}}" >
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <local:DepartureView />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <TextBlock Grid.Column="1" Grid.Row="1" Text="Rissne" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" FontSize="48" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-        <ItemsControl Grid.Column="1" Grid.Row="2" ItemsSource="{Binding DeparturesRissne, Converter={StaticResource DebugConverter}}">
+        <Viewbox HorizontalAlignment="Left">
+            <Viewbox Height="85">
+                <Grid Height="156" Width="190">
+                    <Ellipse Margin="35,0,35,36" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" Width="120" Height="120" StrokeThickness="10"/>
+                    <Path Data="M143.917,245.725 L151.75,245.725 L151.75,249.386 L166.667,249.386 L166.667,250.146 L143.917,250.146 z" HorizontalAlignment="Right" Margin="0,31.995,55.329,71.33" Stretch="Fill" StrokeThickness="10" UseLayoutRounding="False" Width="30.343" Fill="{ThemeResource SystemControlForegroundBaseHighBrush}" d:LayoutOverrides="TopPosition, BottomPosition"/>
+                    <Path x:Name="textBlock" Data="M23.2734,14.2727 C29.7422,14.2727 33.9431,16.0247 37.2127,18.8606 C40.4822,21.6965 41.8665,25.1463 42.0305,29.8807 L31.6251,30.0051 C31.1798,27.3567 31.2246,25.7864 29.7598,24.6262 C28.2949,23.4661 26.4318,22.218 23.5021,22.218 C20.4786,22.218 18.4455,22.8391 16.7346,24.0813 C15.633,24.8781 14.7482,27.2805 14.7482,28.6165 C14.7482,29.8352 14.9297,32.5482 15.9609,33.4154 C17.2734,34.5169 20.4609,35.3314 25.5234,36.5267 C30.5859,37.722 34.3301,38.6243 36.7559,39.9017 C39.1816,41.179 39.7437,41.5891 41.1148,43.804 C42.4859,46.0188 43.5055,48.0871 43.5055,51.3449 C43.5055,54.2981 43.6875,57.0637 42.0469,59.6418 C40.4062,62.2199 38.42,65.138 35.42,66.3919 C32.42,67.6458 28.3477,69.2747 23.8711,69.2747 C17.3555,69.2747 12.3516,67.1009 8.85938,64.0892 C5.36719,61.0774 4.28364,57.3568 3.60395,51.5911 L13.7289,51.6088 C14.3382,55.0072 14.5723,56.5013 16.4355,58.095 C18.2988,59.6888 20.8125,60.4857 23.9766,60.4857 C27.3281,60.4857 28.8512,59.7767 30.5504,58.3587 C32.2497,56.9407 32.7652,55.6165 32.7652,53.7181 C32.7652,52.4994 32.0736,50.1262 31.3588,49.2708 C30.644,48.4153 28.7277,47.0032 26.9465,46.3704 C25.7277,45.9485 23.2845,45.8665 18.9485,44.7884 C13.3704,43.4055 10.4586,42.0403 8.20855,40.0247 C5.04449,37.1888 4.46484,34.0657 4.46484,29.9876 C4.46484,27.3626 5.54311,23.2375 7.0314,20.9524 C8.51968,18.6672 10.9983,16.927 13.7991,15.7317 C16.5998,14.5364 19.3125,14.2727 23.2734,14.2727 z" Margin="57.601,31.274,92.486,69.729" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False" StrokeThickness="0.1" Fill="{ThemeResource SystemControlForegroundBaseHighBrush}" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition">
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Path Data="M184.686,5 L184.738,5.57536 C184.911,7.86077 185,10.17 185,12.5 C185,62.206 144.706,102.5 95,102.5 C45.2944,102.5 5,62.206 5,12.5 C5,10.17 5.08854,7.86077 5.26243,5.57536 L5.31352,5" Margin="0,48.5,0,0" Stretch="Fill" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="10" UseLayoutRounding="False" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition"/>
+                    <Path Data="M149.657,5 L149.906,8.26916 C149.968,9.50486 150,10.7487 150,12 C150,52.041 117.541,84.5 77.5,84.5 C37.4594,84.5 5,52.041 5,12 C5,10.7487 5.0317,9.50486 5.09434,8.26916 L5.34293,5" Margin="18,48.5,17,18" Stretch="Fill" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="10" UseLayoutRounding="False" d:LayoutOverrides="LeftPosition, RightPosition, TopPosition, BottomPosition"/>
+                </Grid>
+            </Viewbox>
+        </Viewbox>
+        <ItemsControl Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Departures}" Margin="0,20,0,0" >
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <local:DepartureView />

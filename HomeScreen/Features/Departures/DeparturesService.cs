@@ -1,4 +1,5 @@
 ﻿using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
 using Newtonsoft.Json;
 using Polly;
 using System;
@@ -13,19 +14,18 @@ namespace HomeScreen.Features.Departures
 {
     public class DeparturesService
     {
-        private readonly Configuration _configuration;
+        private readonly FeatureConfig _configuration;
 
-        public DeparturesService(Configuration configuration)
+        public DeparturesService(FeatureConfig configuration)
         {
             _configuration = configuration;
         }
 
-
-        public async Task<DepartureData> RetrieveDepartureData()
+        public async Task<DepartureData> RetrieveDepartureData(int count)
         {
             var outcome = await PollyUtility.ExecuteWebRequest(async () =>
                 {
-                    var url = _configuration.Settings["departuresDataUrl"];
+                    var url = string.Format(_configuration.Settings["departuresDataUrl"], count);
 
                     var request = WebRequest.CreateHttp(url);
                     var response = await request.GetResponseAsync();
@@ -33,7 +33,9 @@ namespace HomeScreen.Features.Departures
                     using (var stream = response.GetResponseStream())
                     using (var reader = new StreamReader(stream))
                     {
-                        var data = JsonConvert.DeserializeObject<DepartureData>(await reader.ReadToEndAsync());
+                        var json = await reader.ReadToEndAsync();
+
+                        var data = JsonConvert.DeserializeObject<DepartureData>(json);
 
                         return data;
                     }

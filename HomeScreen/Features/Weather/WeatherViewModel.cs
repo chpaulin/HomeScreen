@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
 using HomeScreen.Messages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,6 +12,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -18,76 +20,84 @@ using Windows.UI.Xaml;
 
 namespace HomeScreen.Features.Weather
 {
-    public class WeatherViewModel : ViewModelBase
+    public class WeatherViewModel : AsyncInitViewModelBase
     {
-        private const int FORCAST_LENGHT = 5;
+        private const int FORCAST_LENGHT = 7;
 
-        private double _temperature;
-        private string _icon;
-        private readonly WeatherService _weatherService;
+        private WeatherService _weatherService;
+        private FeatureConfig _configuration;
+        private TimeSpan _dawn;
+        private TimeSpan _dusk;
+        private ForecastViewModel _currentWeather;
 
-        public WeatherViewModel(Configuration configuration)
+        public WeatherViewModel(FeatureConfig configuration)
         {
-            _weatherService = new WeatherService(configuration);
-
-            if (!configuration.Loaded)
-                Messenger.Default.Register<ConfigurationLoadedEvent>(this, async (_) => await SetUpWeatherChecker());
-            else
-                Task.Run(SetUpWeatherChecker);
+            _configuration = configuration;
         }
 
-        private async Task SetUpWeatherChecker()
+        private async Task SetUp()
         {
-            await UpdateWeatherData();
+            Observable
+                .Interval(TimeSpan.FromMinutes(30))
+                .ObserveOnDispatcher()
+                .Subscribe(async (_) =>
+                {
+                    var currentWeatherData = await _weatherService.RetrieveCurrentWeatherData();
+                    UpdateCurrentWeatherData(currentWeatherData);
 
-            var timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMinutes(10)
-            };
+                    var forcasts = await _weatherService.RetrieveForcastWeatherData();
+                    await UpdateForecastWeatherData(forcasts);
+                });
 
-            timer.Tick += async (_, __) => await UpdateWeatherData();
+            await _weatherService.RetrieveCurrentWeatherData()
+                    .ContinueWith(async currentWeatherData => UpdateCurrentWeatherData(await currentWeatherData), TaskScheduler.FromCurrentSynchronizationContext());
 
-            timer.Start();
+            await _weatherService.RetrieveForcastWeatherData()
+                .ContinueWith(async forcasts => UpdateForecastWeatherData(await forcasts), TaskScheduler.FromCurrentSynchronizationContext());
+
+            Messenger.Default.Register<ForecastDueEvent>(this, async (e) => await OnForcastDue(e));
         }
 
-        private async Task UpdateWeatherData()
+        private async Task OnForcastDue(ForecastDueEvent eventArgs)
         {
-            await UpdateCurrentWeatherData();
+            Forecasts.Remove(eventArgs.Forecast);
 
-            await UpdateForecastWeatherData();
+            await _weatherService.RetrieveForcastWeatherData()
+                .ContinueWith(async forcasts => UpdateForecastWeatherData(await forcasts), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
-        private async Task UpdateForecastWeatherData()
+        private async Task UpdateForecastWeatherData(IEnumerable<Forecast> forecasts)
         {
-            var forecastData = await _weatherService.RetrieveForcastWeatherData();
-
-            var forecasts = forecastData.list.Select(f => new
-            {
-                Temperature = f.main.temp,
-                MinTemperature = f.main.temp_min,
-                MaxTemperature = f.main.temp_max,
-                WeatherTypeId = f.weather.FirstOrDefault()?.id,
-                Date = UnixTimeStampUtility.UnixTimeStampToDateTime(f.dt)
-            });
-
-            forecasts = forecasts.OrderBy(f => f.Date).Where(f => f.Date > DateTime.Now && f.Date.Date >= DateTime.Today && f.Date.Date <= DateTime.Today.AddDays(1));        
-
-            Forecasts.Clear();
+            forecasts = forecasts.OrderBy(f => f.Date).Where(f => f.Date > DateTime.Now && f.Date.Date >= DateTime.Today && f.Date.Date <= DateTime.Today.AddDays(1));
 
             foreach (var forecast in forecasts.Take(FORCAST_LENGHT))
             {
-                var forecastVM = new ForecastViewModel
-                {
-                    Temperature = forecast.Temperature,
-                    MinTemperature = forecast.MinTemperature,
-                    MaxTemperature = forecast.MaxTemperature,
-                    Icon = GetWeatherIcon(forecast.WeatherTypeId, Constants.WeatherIconsDay),
-                    Date = forecast.Date
-                };
+                var existingForcastVM = Forecasts.FirstOrDefault(f => f.Date == forecast.Date);
 
-                Forecasts.Add(forecastVM);
+                if (existingForcastVM != null)
+                {
+                    existingForcastVM.Update(forecast);
+                }
+                else
+                {
+                    var icons = GetIcons(forecast.Date.TimeOfDay, _dawn, _dusk);
+
+                    var forecastVM = new ForecastViewModel(forecast, icons);
+
+                    Forecasts.Add(forecastVM);
+
+                    await forecastVM.Init();
+                }
             }
-        }       
+        }
+
+        private IDictionary<int, string> GetIcons(TimeSpan timeOfDay, TimeSpan dawn, TimeSpan dusk)
+        {
+            if (dawn <= timeOfDay && timeOfDay <= dusk) //Day
+                return Constants.WeatherIconsDay;
+
+            return Constants.WeatherIconsNight;
+        }
 
         private bool CheckIfDateIsAroundNoon(int dt)
         {
@@ -99,57 +109,34 @@ namespace HomeScreen.Features.Weather
         public ObservableCollection<ForecastViewModel> Forecasts { get; } = new ObservableCollection<ForecastViewModel>();
 
 
-        private async Task UpdateCurrentWeatherData()
+        private void UpdateCurrentWeatherData(CurrentWeatherConditions currentWeatherData)
         {
-            var currentWeatherData = await _weatherService.RetrieveCurrentWeatherData();
+            _dawn = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData?.sys?.sunrise ?? 0).TimeOfDay;
+            _dusk = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData?.sys?.sunset ?? 0).TimeOfDay;
 
-            if (currentWeatherData.main.temp == 0d)
-                return;
-
-            Temperature = currentWeatherData.main.temp;
-
-            var dawn = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData.sys.sunrise).TimeOfDay;
-            var dusk = UnixTimeStampUtility.UnixTimeStampToDateTime(currentWeatherData.sys.sunset).TimeOfDay;
-
-            var icons = GetIcons(dawn, dusk);
-
-            Icon = GetWeatherIcon(currentWeatherData.weather.FirstOrDefault()?.id, icons);
-        }
-
-        private IDictionary<int, string> GetIcons(TimeSpan dawn, TimeSpan dusk)
-        {
-            var now = DateTime.Now.TimeOfDay;
-
-            if (dawn <= now && now <= dusk) //Day
-                return Constants.WeatherIconsDay;
-
-            return Constants.WeatherIconsNight;
-        }
-
-        private string GetWeatherIcon(int? id, IDictionary<int, string> icons)
-        {
-            if (!id.HasValue || !icons.ContainsKey(id.Value))
-                return "?";
-
-            return icons[id.Value];
-        }
-
-        public double Temperature
-        {
-            get { return _temperature; }
-            private set
+            var icons = GetIcons(DateTime.Now.TimeOfDay, _dawn, _dusk);
+            CurrentWeather = new ForecastViewModel(new Forecast
             {
-                _temperature = value;
-                RaisePropertyChanged();
-            }
+                Temperature = currentWeatherData?.main?.temp ?? 0,
+                WeatherTypeId = currentWeatherData.weather.FirstOrDefault()?.id
+            }, icons);
         }
 
-        public string Icon
+
+
+        public override async Task Init()
         {
-            get { return _icon; }
-            private set
+            _weatherService = new WeatherService(_configuration);
+
+            await SetUp();
+        }
+
+        public ForecastViewModel CurrentWeather
+        {
+            get { return _currentWeather; }
+            set
             {
-                _icon = value;
+                _currentWeather = value;
                 RaisePropertyChanged();
             }
         }

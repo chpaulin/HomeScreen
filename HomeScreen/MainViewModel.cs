@@ -1,30 +1,50 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System;
+using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
 using HomeScreen.Common;
 using HomeScreen.Features.Agenda;
 using HomeScreen.Features.Departures;
 using HomeScreen.Features.StatusBar;
 using HomeScreen.Features.Weather;
+using HomeScreen.Features.CarInfo;
+using HomeScreen.Common.Configuration;
 
 namespace HomeScreen
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : AsyncInitViewModelBase
     {
         public MainViewModel()
         {
-            var configuration = new Configuration();
+            var configHelper = new ConfigurationHelper();
+
+            var configuration = configHelper.LoadConfiguration();
 
             Status = new StatusBarViewModel();
-            Agenda = new AgendaViewModel(configuration);
-            Weather = new WeatherViewModel(configuration);            
-            Departures = new DeparturesViewModel(configuration);
+            Weather = new WeatherViewModel(configuration.GetFeature("weather"));
+            Departures = new DeparturesViewModel(configuration.GetFeature("departures"));
+            Agenda = new AgendaWorker(configuration.GetFeature("agenda"));
+            CarInfo = new CarInfoViewModel(configuration.GetFeature("carInfo"));
         }
 
-        public WeatherViewModel Weather { get; }
+        public WeatherViewModel Weather { get; private set; }
 
-        public StatusBarViewModel Status { get; }
+        public StatusBarViewModel Status { get; private set; }
 
-        public DeparturesViewModel Departures { get; }
+        public DeparturesViewModel Departures { get; private set; }
 
-        public AgendaViewModel Agenda { get; }
+        public AgendaWorker Agenda { get; private set; }
+
+        public CarInfoViewModel CarInfo { get; private set; }
+
+        public override async Task Init()
+        {                   
+            await Task.WhenAny(
+                Agenda.RunAsync(),
+                Status.Init(),
+                Weather.Init(),
+                Departures.Init(),
+                CarInfo.Init()
+                );
+        }
     }
 }

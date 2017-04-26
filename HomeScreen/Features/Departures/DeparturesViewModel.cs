@@ -1,10 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using HomeScreen.Common;
+using HomeScreen.Common.Configuration;
 using HomeScreen.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
@@ -13,78 +15,122 @@ using Windows.UI.Xaml;
 
 namespace HomeScreen.Features.Departures
 {
-    public class DeparturesViewModel : ViewModelBase
+    public class DeparturesViewModel : AsyncInitViewModelBase
     {
-        private const string RISSNE_STATION_NAME = "Rissne T-bana (Sundbyberg kn)";
-        private const string SUNDBYBERG_STATION_NAME = "Sundbyberg station";
+        private const int NO_DEPARTURES_TO_SHOW = 4;
+        
+        private readonly FeatureConfig _configuration;
+        private readonly TimeSpan _lowFrequencyStart;
+        private readonly TimeSpan _lowFrequencyEnd;
+        private readonly int _lowFrequencyInterval;
+        private readonly int _highFrequencyInterval;
 
         private DeparturesService _departureService;
 
-        public DeparturesViewModel(Configuration configuration)
+        public DeparturesViewModel(FeatureConfig configuration)
         {
-            _departureService = new DeparturesService(configuration);
+            _configuration = configuration;
 
-            if (!configuration.Loaded)
-                Messenger.Default.Register<ConfigurationLoadedEvent>(this, async (_) => await SetUpDepartureChecker());
-            else
-                Task.Run(SetUpDepartureChecker);
+            var lowFrequencyPeriod = _configuration.Settings["lowFrequencyUpdates"];
+            _lowFrequencyInterval = int.Parse(_configuration.Settings["lowFrequencyInteval"]);
+            _highFrequencyInterval = int.Parse(_configuration.Settings["highFrequencyInteval"]);
+
+            _lowFrequencyStart = TimeSpan.Parse(lowFrequencyPeriod.Substring(0, 5));
+            _lowFrequencyEnd = TimeSpan.Parse(lowFrequencyPeriod.Substring(6, 5));
+
+            Messenger.Default.Register<DepartureDepartedEvent>(this, async (e) => await OnDepartureDeparted(e));
+        }
+
+        private async Task OnDepartureDeparted(DepartureDepartedEvent eventArgs)
+        {
+            Departures.Remove(eventArgs.Departure);
+
+            await _departureService.RetrieveDepartureData(NO_DEPARTURES_TO_SHOW)
+                .ContinueWith(async departures => UpdateDepartureData(await departures), TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private async Task SetUpDepartureChecker()
         {
-            await UpdateDepartureData();
+            var initialDepartureData = await _departureService.RetrieveDepartureData(NO_DEPARTURES_TO_SHOW);
 
+            await UpdateDepartureData(initialDepartureData);
+            SetUpHighFrequencyDepartureCheck();
+            SetUpLowFrequencyDepartureCheck();
+        }
+
+        private void SetUpLowFrequencyDepartureCheck()
+        {
             Observable
-                .Interval(TimeSpan.FromSeconds(30))
+                .Interval(TimeSpan.FromSeconds(_lowFrequencyInterval))
+                .Where((_) => IsLowFrequencyPeriod)
                 .ObserveOnDispatcher()
-                .Subscribe(async (_) => await UpdateDepartureData());
-        }
-
-        private async Task UpdateDepartureData()
-        {
-            var departureData = await _departureService.RetrieveDepartureData();
-
-            if (departureData.Departure.Count == 0)
-            {
-                OfflineUpdateDepatures(DeparturesSundbyberg);
-                OfflineUpdateDepatures(DeparturesRissne);
-                return;
-            }
-
-            DeparturesSundbyberg.Clear();
-            DeparturesRissne.Clear();
-
-            foreach (var departure in departureData.Departure.Where(d => DateTime.Parse(d.time) > DateTime.Now))
-            {
-                var stopTime = DateTime.Parse(departure.time);
-
-                var departureVM = new DepartureViewModel
+                .Subscribe(async (_) =>
                 {
-                    Departs = stopTime,
-                    Destination = departure.direction,
-                    Number = departure.Product.num
-                };
-
-                if (departure.direction == RISSNE_STATION_NAME && DeparturesRissne.Count < 3)
-                    DeparturesRissne.Add(departureVM);
-                else if (DeparturesSundbyberg.Count < 3)
-                    DeparturesSundbyberg.Add(departureVM);
-            }
+                    Debug.WriteLine("Low frequency departure check");
+                    var departureData = await _departureService.RetrieveDepartureData(NO_DEPARTURES_TO_SHOW);
+                    await UpdateDepartureData(departureData);
+                });
         }
 
-        private void OfflineUpdateDepatures(IList<DepartureViewModel> departures)
+        private void SetUpHighFrequencyDepartureCheck()
         {
-            var departed = departures.Where(d => d.Departs < DateTime.Now);
+            Observable
+                .Interval(TimeSpan.FromSeconds(_highFrequencyInterval))
+                .Where((_) => GetTimeToFirstDeparture() < TimeSpan.FromMinutes(5) && !IsLowFrequencyPeriod)
+                .ObserveOnDispatcher()
+                .Subscribe(async (_) =>
+                {
+                    Debug.WriteLine("High frequency departure check");
+                    var departureData = await _departureService.RetrieveDepartureData(NO_DEPARTURES_TO_SHOW);
+                    await UpdateDepartureData(departureData);
+                });
+        }        
 
-            foreach (var departure in departed)
-            {
-                departures.Remove(departure);
-            }
+        private TimeSpan GetTimeToFirstDeparture()
+        {
+            var firstDeparture = Departures.FirstOrDefault();
+
+            if (firstDeparture == null)
+                return TimeSpan.MaxValue;
+
+            Debug.WriteLine(firstDeparture.Departs - DateTime.Now);
+
+            return firstDeparture.Departs - DateTime.Now;
         }
 
-        public string Test => "Hej";
+        private async Task UpdateDepartureData(DepartureData departureData)
+        {
+            var initTasks = new List<Task>();
 
-        public ObservableCollection<DepartureViewModel> DeparturesSundbyberg { get; } = new ObservableCollection<DepartureViewModel>();
-        public ObservableCollection<DepartureViewModel> DeparturesRissne { get; } = new ObservableCollection<DepartureViewModel>();
+            foreach (var departure in departureData.Departure.Where(d => d.GetDepartureTime() > DateTime.Now))
+            {
+                var existingDeparture = Departures.FirstOrDefault(d => d.OriginalDeparture == departure.GetOriginalDepartureTime());
+
+                if (existingDeparture != null)
+                {
+                    //Update
+                    existingDeparture.Update(departure);
+                }
+                else
+                {
+                    //New
+                    var departureVM = new DepartureViewModel(departure);
+                    Departures.Add(departureVM);
+                    initTasks.Add(departureVM.Init());
+                }
+            }
+
+            await Task.WhenAll(initTasks);
+        }
+
+        public override async Task Init()
+        {
+            _departureService = new DeparturesService(_configuration);
+            await SetUpDepartureChecker();
+        }
+
+        public ObservableCollection<DepartureViewModel> Departures { get; } = new ObservableCollection<DepartureViewModel>();
+
+        public bool IsLowFrequencyPeriod => DateTime.Now.TimeOfDay > _lowFrequencyStart && DateTime.Now.TimeOfDay < _lowFrequencyEnd;
     }
 }

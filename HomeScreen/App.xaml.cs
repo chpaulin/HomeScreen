@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Threading;
+using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,7 +31,7 @@ namespace HomeScreen
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += OnSuspending;            
+            this.Suspending += OnSuspending;
         }
 
         /// <summary>
@@ -37,7 +39,7 @@ namespace HomeScreen
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -79,7 +81,28 @@ namespace HomeScreen
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+
+                //Initialize app
+                var mainPage = rootFrame.Content as MainPage;
+                await mainPage.Init();
+
+                //Set up logging
+               // Log.Logger = new LoggerConfiguration()
+               //.MinimumLevel.Debug()
+               //.WriteTo.Sink(await LogSink.CreateSink())
+               //.CreateLogger();
+
+                Current.UnhandledException += Application_UnhandledExceptions;
+
+                DispatcherHelper.Initialize();
+
+                Log.Information($"{DateTime.Now.ToString("t")} - Homescreen starting up");
             }
+        }
+
+        private void Application_UnhandledExceptions(object sender, UnhandledExceptionEventArgs e)
+        {
+            Log.Error("Unhandled exception occured @{E}", e);
         }
 
         private void Current_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -109,6 +132,6 @@ namespace HomeScreen
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
-        }        
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace HomeScreen.Features.Agenda
     {
         public AgendaView()
         {
-            this.InitializeComponent();
+            this.InitializeComponent();            
         }
     }
 }
