@@ -1,11 +1,11 @@
 ﻿{
   "features": [
     {
-      "name": "departure",
+      "name": "departures",
       "values": [
         {
           "key": "departuresDataUrl",
-          "value": "https://api.resrobot.se/v2/departureBoard.json?key={key}&id=740064079&maxJourneys=10&passlist=0"
+          "value": "https://api.resrobot.se/v2/departureBoard.json?key=[key]&id=[stopid]&maxJourneys={0}&passlist=0"
         },
         {
           "key": "lowFrequencyUpdates",
@@ -26,11 +26,11 @@
       "values": [
         {
           "key": "weatherDataUrl",
-          "value": "http://api.openweathermap.org/data/2.5/weather?id=2692630&units=metric&APPID={APPID}"
+          "value": "http://api.openweathermap.org/data/2.5/weather?lat=[lat]&lon=[lon]&units=metric&APPID=[appid]"
         },
         {
           "key": "forcastDataUrl",
-          "value": "http://api.openweathermap.org/data/2.5/forecast?id=2700791&units=metric&APPID={APPID}"
+          "value": "http://api.openweathermap.org/data/2.5/forecast?id=[id]&units=metric&APPID=[appid]"
         }
       ]
     },
@@ -39,11 +39,40 @@
       "values": [
         {
           "key": "agendaDataUrl",
-          "value": "http://sharing.calendar.live.com/calendar/private/9c7b84c0-ed74-4b53-8967-5eb87910c279/b90cb52f-22af-4037-beaa-6139ab71ef40/cid-1c8b20a00e1f65da/calendar.ics"
+          "value": "https://outlook.live.com/owa//calendar/[someurl]/calendar.ics"
         },
         {
           "key": "dateSignificanceUrl",
           "value": "http://api.dryg.net/dagar/v2.1/{0}"
+        }
+      ]
+    },
+    {
+      "name": "carInfo",
+      "values": [
+        {
+          "key": "clientId",
+          "value": "[clientid]"
+        },
+        {
+          "key": "clientSecret",
+          "value": "[clientsecret]"
+        },
+        {
+          "key": "email",
+          "value": "[email]"
+        },
+        {
+          "key": "password",
+          "value": "[password]"
+        },
+        {
+          "key": "teslaApiUrl",
+          "value": "https://owner-api.teslamotors.com/"
+        },
+        {
+          "key": "vehicleId",
+          "value": "[vehicleid]"
         }
       ]
     }
