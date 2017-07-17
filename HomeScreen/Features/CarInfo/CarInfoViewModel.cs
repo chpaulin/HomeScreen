@@ -56,7 +56,7 @@ namespace HomeScreen.Features.CarInfo
         {
             var chargeState = await _service.GetChargeState(_configuration.Settings["vehicleId"]);
 
-            if (chargeState == ChargeState.Empty)
+            if (chargeState == null || chargeState == ChargeState.Empty)
                 return;
 
             _chargeState = chargeState;
