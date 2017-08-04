@@ -37,8 +37,17 @@
                 </TransformGroup>
             </Path.RenderTransform>
         </Path>
-        <Viewbox Height="85" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,15,0">
-            <Path Data="M58.2226,19.814 C58.2226,19.814 76.0007,40.7045 76.0007,40.7045 C76.0007,40.7045 93.5559,20.0358 93.5559,20.0358 C118.223,20.9248 144.712,30.851 144.222,32.259 C140.666,42.4816 122.445,50.705 122.445,50.705 C123.557,38.4824 98.8901,40.2605 98.8901,40.2605 L76.2227,152.038 C76.2227,152.038 52.9414,40.5775 52.9414,40.5775 C26.9732,39.2344 29.4362,50.659 29.4362,50.659 C29.4362,50.659 12.223,43.5936 8.00095,32.259 C8.00095,32.259 31.3332,22.0374 58.2226,19.814 z M77.4869,0.002411 C99.758,0.103958 125.301,3.42898 152,13.1018 C152,13.1018 146.295,25.76 146.295,25.76 C146.295,25.76 78.3484,-3.19707 5.70453,25.76 C5.70453,25.76 0,13.1018 0,13.1018 C0,13.1018 31.8843,-0.205513 77.4869,0.002411 z" Fill="{ThemeResource SystemControlForegroundBaseHighBrush}" Stretch="Fill" UseLayoutRounding="False" Height="152.038" Width="152"/>
+        <Viewbox Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,30,20">
+            <Path Fill="White" HorizontalAlignment="Center" UseLayoutRounding="False" Width="54" VerticalAlignment="Center" Data="M43.4531,41.6876 C42.2344,41.6876 41.1797,42.1096 40.2891,42.9533 C39.3984,43.7971 38.9531,44.8751 38.9531,46.1876 C38.9531,47.5001 39.3984,48.5783 40.2891,49.4221 C41.1797,50.2658 42.2344,50.6876 43.4531,50.6876 C44.6719,50.6876 45.7266,50.2658 46.6172,49.4221 C47.5078,48.5783 47.9531,47.5001 47.9531,46.1876 C47.9531,44.8751 47.5078,43.7971 46.6172,42.9533 C45.7266,42.1096 44.6719,41.6876 43.4531,41.6876 z M10.5469,41.6876 C9.32812,41.6876 8.27344,42.1096 7.38281,42.9533 C6.49219,43.7971 6.04687,44.8751 6.04688,46.1876 C6.04687,47.5001 6.49219,48.5783 7.38281,49.4221 C8.27344,50.2658 9.32812,50.6876 10.5469,50.6876 C11.7656,50.6876 12.8203,50.2658 13.7109,49.4221 C14.6016,48.5783 15.0469,47.5001 15.0469,46.1876 C15.0469,44.8751 14.6016,43.7971 13.7109,42.9533 C12.8203,42.1096 11.7656,41.6876 10.5469,41.6876 z M10.5469,19.1876 L19.6818,19.1876 L17.8173,23.6876 L10.5469,23.6876 L6.04688,35.6408 L47.9531,35.6408 L43.4531,23.6876 L32.5377,23.6876 L37.6859,19.1876 L43.4531,19.1876 C45.7031,19.1876 47.1094,20.172 47.6719,22.1408 L54,38.7346 L54,61.2346 C54,62.0784 53.7187,62.7814 53.1562,63.3439 C52.5937,63.9064 51.8906,64.1877 51.0469,64.1877 L47.9531,64.1877 C47.1094,64.1877 46.4062,63.9064 45.8438,63.3439 C45.2812,62.7814 45,62.0784 45,61.2346 L45,59.6876 L9,59.6876 L9,61.2346 C9,62.0784 8.71875,62.7814 8.15625,63.3439 C7.59375,63.9064 6.89062,64.1877 6.04688,64.1877 L2.95312,64.1877 C2.10938,64.1877 1.40625,63.9064 0.84375,63.3439 C0.28125,62.7814 0,62.0784 0,61.2346 L0,38.7346 L6.32812,22.1408 C6.89062,20.172 8.29688,19.1876 10.5469,19.1876 z M34.8273,0 L29.0809,13.2549 L37.9403,15.1597 L19.0057,31.3753 L24.7521,18.1204 L15.8927,16.2156 z" Height="64.188" RenderTransformOrigin="0.5,0.649465" Stretch="Fill">
+                <Path.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Path.RenderTransform>
+            </Path>
         </Viewbox>
         <Viewbox Grid.Column="1" Height="45" VerticalAlignment="Center" Margin="0,0,10,0">
             <Grid Height="100" Width="350">
@@ -51,16 +60,6 @@
             <TextBlock Text="{Binding StateOfChargePercentage, FallbackValue=62}" HorizontalAlignment="Center" FontSize="30" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontWeight="Bold" FocusVisualPrimaryBrush="{StaticResource SystemControlHighlightAccentBrush}"/>
             <TextBlock Text="%" HorizontalAlignment="Center" FontSize="30" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="2,0,0,0"/>
         </StackPanel>
-        <Path Grid.Column="2" Data="M16.992,8.16 C17.536,8.16 18.008,8.36 18.408,8.76 C18.808,9.16 19.008,9.632 19.008,10.176 C19.008,10.496 18.944,10.784 18.816,11.04 L14.544,21.312 L22.992,26.208 C23.568,26.528 23.896,27.024 23.976,27.696 C24.056,28.368 23.856,28.944 23.376,29.424 L8.352,43.632 C8,43.984 7.552,44.16 7.008,44.16 C6.304,44.16 5.752,43.856 5.352,43.248 C4.952,42.64 4.88,42.016 5.136,41.376 L9.456,31.008 L1.008,26.112 C0.464,25.792 0.144,25.296 0.048,24.624 C-0.048,23.952 0.144,23.376 0.624,22.896 L15.648,8.688 C16.064,8.336 16.512,8.16 16.992,8.16 z" Fill="#99FFFFFF" HorizontalAlignment="Center" Height="36" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="20" Margin="0,0,20,0">
-            <Path.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Path.RenderTransform>
-        </Path>
         <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center" Padding="0" Margin="0,0,0,8">
             <TextBlock Text="{Binding StateOfChargeKm, FallbackValue=186}" HorizontalAlignment="Center" FontSize="48" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontWeight="Bold"/>
             <TextBlock Text="km" HorizontalAlignment="Center" FontSize="48" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" Margin="5,0,0,0"/>

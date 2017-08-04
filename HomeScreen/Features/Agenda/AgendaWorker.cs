@@ -36,7 +36,7 @@ namespace HomeScreen.Features.Agenda
 
         private async Task UpdateAgendaData()
         {
-            var currentEvents = await GetCurrentEvents();   
+            var currentEvents = await GetCurrentEvents();
 
             Messenger.Default.Send(new AgendaChangedEvent
             {
@@ -55,7 +55,7 @@ namespace HomeScreen.Features.Agenda
                 if (!string.IsNullOrEmpty(dayInfo.helgdag))
                     day.Events.Insert(0, AgendaModelFactory.CreateHolidayEvent(dayInfo.helgdag));
                 else if (!string.IsNullOrEmpty(dayInfo.helgdagsafton))
-                    day.Events.Insert(0, AgendaModelFactory.CreateHolidayEvent(dayInfo.helgdagsafton));                
+                    day.Events.Insert(0, AgendaModelFactory.CreateHolidayEvent(dayInfo.helgdagsafton));
             }
 
             return day;
@@ -93,7 +93,7 @@ namespace HomeScreen.Features.Agenda
                     entryCount += GetDayEntryCount(day);
                 }
 
-                date += TimeSpan.FromDays(1);                
+                date += TimeSpan.FromDays(1);
             }
 
             if (entryCount > MAXIMUM_CONTENT)
@@ -106,13 +106,14 @@ namespace HomeScreen.Features.Agenda
         {
             double entryCount = 6;
 
-            foreach(var @event in day.Events)
+            foreach (var @event in day.Events)
             {
                 switch (@event.EventType)
                 {
                     case Event.ALL_DAY_EVENT:
                     case Event.NO_EVENTS:
                     case Event.PERIODIC_EVENT:
+                    case Event.HOLIDAY_EVENT:
                         entryCount += 8;
                         break;
                     case Event.NORMAL_EVENT:
